@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Home from '../components/Home.vue'
+import Profile from '../components/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -10,7 +11,13 @@ const routes = [
   { path: '/', redirect:'/login' },
   { path: '/login', component : Login },
   { path: '/register', component : Register },
-  { path: '/home', component : Home }
+  { 
+    path: '/home', 
+    component : Home,
+    // redirect:'/index',
+    children: [
+      {path:'/profile',component : Profile}
+    ]}
 ]
 
 const router = new VueRouter({
@@ -24,9 +31,9 @@ router.beforeEach((to,from,next)=>{
   // next 是一个函数，表示放行
   // next() 放行    next('/login') 强制跳转
   if(to.path === '/login') return next();
-  // 获取token
-  const tokenStr = window.sessionStorage.getItem('token')
-  if(!tokenStr) return next('/login')
+  // 获取cookie
+  const cookieStr = window.sessionStorage.getItem('cookie')
+  if(!cookieStr) return next('/login')
   next()
 })
 

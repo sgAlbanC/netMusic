@@ -8,7 +8,10 @@ import './assets/css/global.css'
 // 导入axios 发起ajax请求;这样每一个Vue的组件都可以通过this访问到$http，从而发起ajax请求
 import axios from 'axios'
 // 配置axios请求的根路径
+
 axios.defaults.baseURL = 'https://netease-cloud-music-api-rose-sigma.vercel.app'
+
+
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false

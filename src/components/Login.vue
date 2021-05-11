@@ -47,6 +47,11 @@ export default {
       this.$refs.loginFormRef.validate(async (valid) => {
         if(!valid) return;
         const {data:res} = await this.$http.get('/login/cellphone?phone='+this.loginForm.phone+'&password='+this.loginForm.password);
+        console.log(res)
+        // 这里把id也存起来，后面查看个人信息需要用到
+        window.sessionStorage.setItem("uid",res.account.id)
+        window.sessionStorage.setItem("avatarUrl",res.profile.avatarUrl)
+
         if(res.code!==200){     
           this.$message({
             message: '登录失败',
@@ -54,9 +59,9 @@ export default {
           });
           return
         }
-        // 将token存在sessStorage中，且进行路由跳转
-        // 后续的大部分api需要有这个token才能访问
-        window.sessionStorage.setItem("token",res.token)
+        // 将cookie存在sessStorage中，且进行路由跳转
+        // 后续的大部分api需要有这个cookie才能访问
+        window.sessionStorage.setItem("cookie",res.cookie)
         this.$router.push("/home")
       })
     }
@@ -108,9 +113,12 @@ export default {
     .btn_login{
       background-color: #C20C0C;
       color:#fff;
+      .btn_login:hover{
+        background-color: #9B0909;
+        color:#fff;
+      }
     }
   }
-  
 }
   
 
