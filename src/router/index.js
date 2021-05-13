@@ -4,6 +4,7 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Home from '../components/Home.vue'
 import Profile from '../components/Profile.vue'
+import Playlistdetail from '../components/Playlistdetail.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,8 @@ const routes = [
     component : Home,
     // redirect:'/index',
     children: [
-      {path:'/profile',component : Profile}
+      {path:'/profile',component : Profile},
+      {path:'/playlistdetail',component : Playlistdetail}
     ]}
 ]
 

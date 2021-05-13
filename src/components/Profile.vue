@@ -3,7 +3,11 @@
         <div class="baseinfo_box">
             <div style="flex:2"></div>
             <div class="avatar">
-                <img v-bind:src="avatarUrl">
+                <el-image v-bind:src="avatarUrl">
+                    <div slot="error" class="image-slot">
+                        <i class="el-icon-picture-outline"></i>
+                    </div>
+                </el-image>
             </div>
             <div style="flex:0.2"></div>
             <div class="base_form">
@@ -34,7 +38,7 @@
                 <el-row>
                     <el-col :span="4"  v-for="item in playlist" :key="item.index">
                         <div class="imgbox">
-                            <img :src="item.coverImgUrl" @click="getPlaylistDetail(item.id)">
+                            <el-image :src="item.coverImgUrl" @click="toPlaylistDetail(item.id)" lazy></el-image>
                             <div class="listname">{{item.name}}</div>
                             <div class="playcount"><i class="el-icon-headset"></i> {{item.playCount}} <i class="el-icon-video-play right"></i></div>
                         </div>
@@ -110,25 +114,25 @@ export default ({
         
         async getSongMV(){
             const {data:res} = await this.$http.get('/user/subcount?cookie='+window.sessionStorage.getItem('cookie'));
-            console.log(res)
+            // console.log(res)
             this.subPlaylistCount = res.subPlaylistCount + res.createdPlaylistCount
         },
 
         async getPlaylist(){
             const {data:res} = await this.$http.get('/user/playlist?limit=27&uid='+window.sessionStorage.getItem('uid'));
-            console.log(res)
+            // console.log(res)
             console.log(res.playlist)
             this.playlist = res.playlist
         },
 
-        // 点击歌单，传入歌单的id
-        async getPlaylistDetail(id){
-            const {data:res} = await this.$http.get('/playlist/detail?id='+id);
-            console.log(res)
-
-            if(res.code != 200){
-                return this.$message.error('获取歌单信息失败！')
-            }
+        // 跳转页面;这里的id是歌单的id，然后传过去
+        toPlaylistDetail(id){
+            this.$router.push({
+                path:"/playlistdetail",
+                query: {   
+                    id: id
+                } 
+            })
         }
     }
 })
@@ -141,7 +145,7 @@ export default ({
     padding:0 20px;
     .avatar{
         flex:1;
-        img{
+        .el-iamge{
             width: 180px;
             height: 180px;
         }
@@ -165,9 +169,9 @@ export default ({
             .imgbox{
                 width: 180px;
                 position: absolute;
-                img{
-                height: 180px;
-                cursor:pointer;
+                .el-image{
+                    height: 180px;
+                    cursor:pointer;
                 }
                 .listname{
                     overflow:hidden;
