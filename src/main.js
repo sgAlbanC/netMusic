@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'  // 根组件
 import router from './router'  // 路由
+import NProgress from 'nprogress'
+
+
 import './plugins/element.js'
 // 引入全局样式表
 import './assets/css/global.css'
@@ -10,6 +13,20 @@ import axios from 'axios'
 // 配置axios请求的根路径
 
 axios.defaults.baseURL = 'https://netease-cloud-music-api-rose-sigma.vercel.app'
+
+
+// axios.interceptors.request.use(config => {
+//   // console.log(config)
+//   NProgress.start()
+//   config.headers.Authorization = window.sessionStorage.getItem('token')
+//   // 在最后必须 return config
+//   return config
+// })
+// // 在 response 拦截器中，隐藏进度条 NProgress.done()
+// axios.interceptors.response.use(config => {
+//   NProgress.done()
+//   return config
+// })
 
 
 Vue.prototype.$http = axios

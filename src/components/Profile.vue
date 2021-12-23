@@ -1,15 +1,13 @@
 <template>
     <div>
         <div class="baseinfo_box">
-            <div style="flex:2"></div>
             <div class="avatar">
-                <el-image v-bind:src="avatarUrl">
+                <el-image :src="avatarUrl">
                     <div slot="error" class="image-slot">
                         <i class="el-icon-picture-outline"></i>
                     </div>
                 </el-image>
             </div>
-            <div style="flex:0.2"></div>
             <div class="base_form">
                 <el-form>
                     <el-form-item>{{nickname}}/LV{{level}}/{{gender}}</el-form-item>
@@ -17,7 +15,7 @@
                     <el-form-item>个人介绍: {{signature}}</el-form-item>
                 </el-form>
             </div>
-            <div style="flex:2"></div>
+            <div class="clear"></div>
         </div>
         <div class="container">
             <section>
@@ -98,7 +96,7 @@ export default ({
             // console.log(res)
 
             if(res.code != 200){
-                return this.$message.error('获取用户信息失败！')
+                return this.$message.error('获取用户信息失败!')
             }
 
             this.nickname = res.profile.nickname
@@ -140,23 +138,25 @@ export default ({
 
 <style lang="less" scoped>
 .baseinfo_box{
-    display: flex;
-    flex-direction: row;
-    padding:0 20px;
     .avatar{
-        flex:1;
-        .el-iamge{
-            width: 180px;
-            height: 180px;
+        float: left;
+        width: 10rem;
+        margin-right: 1rem;
+        background-color:#fff;
+        .el-image{
+            margin: 8px;
         }
     }
     .base_form{
-        flex:3;
+        float:left;
         text-align: left;
         .el-form{
             padding:0 10px ;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05)
         }
+    }
+    .clear{
+        clear: both;
     }
 }
 .container{
@@ -187,7 +187,7 @@ export default ({
                     opacity: 0.8;
                     padding: 5px;
                     position:relative;
-                    top: -56px;
+                    top: -3.7rem;
                 }
             }         
         }    

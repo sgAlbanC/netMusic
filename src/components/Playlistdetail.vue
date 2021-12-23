@@ -1,36 +1,31 @@
 <template>
     <div>
         <div class="playlist_info">
-            <el-row>
-                <el-col :span="4">
-                    <div class="imgbox">
-                        <el-image :src="coverImgUrl">
-                            <div slot="error" class="image-slot">
-                                <i class="el-icon-picture-outline"></i>
-                            </div>
-                        </el-image>
+            <div class="imgbox">
+                <el-image :src="coverImgUrl">
+                    <div slot="error" class="image-slot">
+                        <i class="el-icon-picture-outline"></i>
                     </div>
-                </el-col>
-                <el-col :span="20">
-                    <div class="infobox">
-                        <div class="listname">{{name}}</div>
-                        <div class="creator_info">
-                            <el-image :src="avatarUrl">
-                                <div slot="error" class="image-slot">
-                                    <i class="el-icon-picture-outline"></i>
-                                </div>
-                            </el-image>
-                            <div class="creator_nickname">{{creatorNickname}}</div>
-                            <div class="create_time">{{createTime}}</div>
+                </el-image>
+            </div>
+            <div class="infobox">
+                <div class="listname">{{name}}</div>
+                <div class="creator_info">
+                    <el-image :src="avatarUrl">
+                        <div slot="error" class="image-slot">
+                            <i class="el-icon-picture-outline"></i>
                         </div>
-                        <p>tags:</p>   
-                        <div class="tags" v-for="item in tags" :key="item.index">_{{item}}</div>
-                        <br>
-                        <p>描述:</p> 
-                        <div class="description">{{description}}</div>
-                    </div>
-                </el-col>
-            </el-row>        
+                    </el-image>
+                    <div class="creator_nickname">{{creatorNickname}}</div>
+                    <div class="create_time">{{createTime}}</div>
+                </div>
+                <p>tags:</p>   
+                <div class="tags" v-for="item in tags" :key="item.index">_{{item}}</div>
+                <br>
+                <p>描述:</p> 
+                <div class="description">{{description}}</div>
+            </div>    
+            <div class="clear"></div>  
         </div>
         <div class="container">
             <section>
@@ -85,7 +80,7 @@ export default ({
        async getPlaylistDetail(){
            let id =  this.$route.query.id
            const {data:res} = await this.$http.get('/playlist/detail?id='+id);
-           console.log(res)
+        //    console.log(res)
            this.name = res.playlist.name
            this.creatorNickname = res.playlist.creator.nickname
            this.createTime = res.playlist.createTime
@@ -100,7 +95,7 @@ export default ({
        },
 
        async getSongUrl(index,row){
-            console.log(row.id)
+            // console.log(row.id)
             let id = row.id
         //  检查音乐是否可播放
             const {data:res} = await this.$http.get('/check/music?id='+id);
@@ -109,9 +104,9 @@ export default ({
                 return
             }
             const {data:res2} = await this.$http.get('/song/url?id='+id);
-            console.log(res2)
+            // console.log(res2)
             this.mp3Url = res2.data[0].url
-            console.log(this.mp3Url)
+            // console.log(this.mp3Url)
        }
     }
 })
@@ -121,13 +116,17 @@ export default ({
 
 .playlist_info{
     .imgbox{
-
+        float: left;
+        width: 10rem;
+        margin-right: 1rem;
+        background-color:#fff;
         .el-image{
-            padding-right:20px;
+            margin: 8px;
         }
     }
 
     .infobox{
+        float: left;
         .listname{
             font-size: 1.5rem;
             overflow:hidden;
@@ -136,12 +135,15 @@ export default ({
         }
         .el-image{
             float: left;
-            width: 35px;
-            height: 35px;
+            width: 2rem;
+            height: 2rem;
         }
         .tags{
             float: left;
         } 
+    }
+    .clear{
+        clear: both;
     }
 }
 .container{

@@ -24,9 +24,9 @@
                         </el-input>
                     </el-menu-item>
                     <el-button type="info" plain @click="logout" class="right btn" icon="el-icon-switch-button" circle></el-button>
-                    </el-menu>
+                </el-menu>
             </el-header>
-        <el-container>
+            <el-container>
             <el-container>
                 <el-aside width="200px">Aside</el-aside>  
                 <el-main>
@@ -35,7 +35,7 @@
             </el-container>
             <el-footer>Footer</el-footer>
             
-        </el-container>
+            </el-container>
         </el-container>        
     </div>
 </template>
@@ -77,32 +77,33 @@ export default {
     line-height: 60px;
 }
 .el-menu {
-    margin-left: 200px;
-    line-height: 60px;
+    margin-left: 11rem;
+    min-width: 56rem;
 }
   
 .el-aside {
     background-color: #fff;
     color: #333;
     text-align: center;
-    line-height: 160px;
+    // line-height: 160px;
 }
   
 .el-main {
     background-color: #f5f5f5;
     color: #333;
+    min-width: 40rem;
     // text-align: center;
     // line-height: 160px;
 }
 
 .logo img{
-    height: 40px;
+    height: 2.5rem;
 }
 .avatar img{
-    height: 40px;
+    height: 2.5rem;
     border-radius:100%;
 }
 .btn{
-    margin-top: 10px;
+    margin-top: 0.625rem;
 }
 </style>
