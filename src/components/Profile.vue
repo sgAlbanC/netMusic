@@ -12,7 +12,7 @@
             <div style="flex:0.2"></div>
             <div class="base_form">
                 <el-form>
-                    <el-form-item>{{nickname}}|LV{{level}}|{{gender}}</el-form-item>
+                    <el-form-item>{{nickname}}/LV{{level}}/{{gender}}</el-form-item>
                     <el-form-item>关注:{{follows}}|粉丝:{{followeds}}</el-form-item>
                     <el-form-item>个人介绍: {{signature}}</el-form-item>
                 </el-form>
@@ -153,6 +153,10 @@ export default ({
     .base_form{
         flex:3;
         text-align: left;
+        .el-form{
+            padding:0 10px ;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05)
+        }
     }
 }
 .container{
@@ -183,7 +187,7 @@ export default ({
                     opacity: 0.8;
                     padding: 5px;
                     position:relative;
-                    top: -57px;
+                    top: -56px;
                 }
             }         
         }    
