@@ -5,6 +5,7 @@ import Register from '../components/Register.vue'
 import Home from '../components/Home.vue'
 import Profile from '../components/Profile.vue'
 import Playlistdetail from '../components/Playlistdetail.vue'
+import FindMusic from '../components/FindMusic.vue'
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,7 @@ const routes = [
     component : Home,
     // redirect:'/index',
     children: [
+      {path:'/findmusic',component:FindMusic},
       {path:'/profile',component : Profile},
       {path:'/playlistdetail',component : Playlistdetail}
     ]}

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-container>
+        <el-container class="main">
             <el-header>
                 <el-menu
                     :default-active="activeIndex"
@@ -10,7 +10,7 @@
                     background-color="#242424"
                     router>
                     <el-menu-item class="logo"><img src="../assets/logo.png"></el-menu-item>
-                    <el-menu-item index="1">发现音乐</el-menu-item>
+                    <el-menu-item index="findmusic">发现音乐</el-menu-item>
                     <el-menu-item index="2">我的音乐</el-menu-item>
                     <el-submenu class="avatar" index="3">
                         <template slot="title"><img v-bind:src="avatarUrl"></template>
@@ -70,6 +70,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main{
+    min-height: 56rem;
+}
 .el-header, .el-footer {
     background-color: #242424;
     color: #ccc;

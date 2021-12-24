@@ -58,7 +58,7 @@ export default ({
             nickname:'Det',
             level:0,
             listenSongs: 0,
-            gender:0,
+            gender:'',
             avatarUrl:'',
             signature:'',
             followeds:0,
@@ -91,6 +91,7 @@ export default ({
         this.getPlaylist()
     },
     methods:{
+        // 获取用户基本信息
         async getUserInfo(){
             const {data:res} = await this.$http.get('user/detail?uid='+window.sessionStorage.getItem('uid'));
             // console.log(res)
@@ -101,6 +102,13 @@ export default ({
 
             this.nickname = res.profile.nickname
             this.gender = res.profile.gender
+            if(this.gender==1){
+                this.gender='男'
+            }else if(this.gender==0){
+                this.gender='女'
+            }else{
+                this.gender='保密'
+            }
             this.signature = res.profile.signature
             this.avatarUrl = res.profile.avatarUrl
             this.follows = res.profile.follows 
