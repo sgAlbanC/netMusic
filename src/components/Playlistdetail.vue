@@ -17,13 +17,14 @@
                         </div>
                     </el-image>
                     <div class="creator_nickname">{{creatorNickname}}</div>
-                    <div class="create_time">{{createTime}}</div>
+                    <!-- <div class="create_time">{{createTime}}</div> -->
                 </div>
-                <p>tags:</p>   
-                <div class="tags" v-for="item in tags" :key="item.index">_{{item}}</div>
-                <br>
-                <p>描述:</p> 
-                <div class="description">{{description}}</div>
+                <div class="tags_box">
+                    <strong>tags:</strong>
+                    <div class="tags" v-for="item in tags" :key="item.index">_{{item}}</div>
+                    <div class="clear"></div>  
+                </div>
+                <div class="description"><strong>描述:</strong> {{description}}</div>
             </div>    
             <div class="clear"></div>  
         </div>
@@ -127,20 +128,54 @@ export default ({
 
     .infobox{
         float: left;
+        width: 50rem;
+        padding: 5px 10px 16px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
         .listname{
             font-size: 1.5rem;
             overflow:hidden;
             text-overflow:ellipsis;  /* 溢出用省略号表示 */
             white-space:nowrap;  /* 始终保持在一行显示 */
         }
-        .el-image{
-            float: left;
-            width: 2rem;
-            height: 2rem;
+        .creator_info{
+            height: 42px;
+            
+            .creator_nickname{
+                height: 42px;
+                display:table-cell ;
+                vertical-align: middle;
+            
+            }
+            .el-image{
+                float: left;
+                width: 2rem;
+                height: 2rem;
+                margin: 5px 10px 5px 0;
+            }
         }
-        .tags{
-            float: left;
-        } 
+        .tags_box{
+            strong{
+                float: left;
+            }
+            .tags{
+                float: left;
+            } 
+            .clear{
+                clear: both;
+            }
+        }
+
+        .description{
+            height: 4rem;
+            margin-top: 5px ;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            // white-space: nowrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient:vertical;
+            
+        }
     }
     .clear{
         clear: both;

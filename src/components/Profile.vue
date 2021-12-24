@@ -158,6 +158,7 @@ export default ({
     .base_form{
         float:left;
         text-align: left;
+        width: 20rem;
         .el-form{
             padding:0 10px ;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05)
