@@ -6,8 +6,10 @@
                     <h3>歌曲类型</h3> tags
                 </div>
                 <el-card>
-                    <div class="tags_style" v-for="item in tags" :key="item.id">
-                        <div class="tags_name" @click="getTagsName(item.name)">{{item.name}} // </div>
+                    <div class="tagsinfo_box">
+                        <div class="tags_style" v-for="item in tags" :key="item.id">
+                            <div class="tags_name" @click="getTagsName(item.name)">{{item.name}} // </div>
+                        </div>
                     </div>
                 </el-card>
             </section>
@@ -78,15 +80,20 @@ export default ({
 <style lang="less" scoped>
 .container{
     .table-top{
-        margin:10px 0;
+        padding:10px 0;
     }
-    .tags_style{
-        float: left;
+    .tagsinfo_box{
+        height: 50px;
+        .tags_style{
+            float: left;
         .tags_name:hover{
             color: aquamarine;
             cursor:pointer;
         }
     }
+
+    }
+
     h3{
         display: inline;
     }

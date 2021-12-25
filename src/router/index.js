@@ -15,7 +15,7 @@ const routes = [
   { path: '/register', component : Register },
   { 
     path: '/home', 
-    component : Home,
+    component: Home,
     // redirect:'/index',
     children: [
       {path:'/findmusic',component:FindMusic},
