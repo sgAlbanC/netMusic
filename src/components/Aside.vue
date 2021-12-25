@@ -29,7 +29,7 @@ export default {
         async getSearchHot(){
             const {data:res} = await this.$http.get('/search/hot')
             this.hots = res.result.hots
-            console.log(this.hots)
+            // console.log(this.hots)
         }
         
     }
@@ -37,9 +37,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.main{
-    // text-align: center;
-}
+// .main{
+//     // text-align: center;
+// }
 .searchhot_box{
     padding: 20px;
     .searchhot_logo{
