@@ -29,7 +29,7 @@
             <el-container>
             <el-container>
                 <el-aside width="200px">
-                    <Aside></Aside>    
+                    <Aside></Aside>
                 </el-aside>  
                 <el-main>
                     <router-view></router-view>
@@ -43,8 +43,9 @@
 </template>
 
 <script>
-
+import Aside from './Aside.vue'
 export default {
+  components: { Aside },
     data() {
       return {
         activeIndex: '1',
@@ -89,18 +90,13 @@ export default {
 .el-aside {
     background-color: #fff;
     color: #333;
-    text-align: center;
-    // line-height: 160px;
 }
   
 .el-main {
     background-color: #f5f5f5;
     color: #333;
     min-width: 40rem;
-    // text-align: center;
-    // line-height: 160px;
 }
-
 .logo img{
     height: 2.5rem;
 }
