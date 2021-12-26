@@ -10,6 +10,7 @@
                     background-color="#242424"
                     router>
                     <el-menu-item class="logo"><img src="../assets/logo.png"></el-menu-item>
+                    <el-menu-item index="homepage">首页</el-menu-item>
                     <el-menu-item index="findmusic">发现音乐</el-menu-item>
                     <el-menu-item index="2">我的音乐</el-menu-item>
                     <el-submenu class="avatar" index="3">

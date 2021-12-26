@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// import Lyric from 'lyric-parser'
 export default {
   data() {
     return {
@@ -50,7 +51,9 @@ export default {
 
         this.lyrics = res.lrc.lyric
         
-        // this.currentLyric = new Lyric(lyric, this.lyricHandle)
+        //  let currentLyric = new Lyric(lyric, this.lyricHandle)
+        //  console.log(currentLyric);
+         
     }
   },    
 };
