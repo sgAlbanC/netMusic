@@ -62,7 +62,7 @@ export default {
         // 将cookie存在sessStorage中，且进行路由跳转
         // 后续的大部分api需要有这个cookie才能访问
         window.sessionStorage.setItem("cookie",res.cookie)
-        this.$router.push("/home")
+        this.$router.push("/homepage")
       })
     }
   }
