@@ -8,6 +8,10 @@ https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%e5%8a%9f%e8%83%bd%e7%89%
 
 
 
+线上：https://net-music-swart.vercel.app/#/login
+
+
+
 ### 记录前端开发流程
 
 1. #### 首先用vue脚手架创建netMusic项目
