@@ -14,7 +14,7 @@
           </el-form-item>
           <!-- 按钮 -->
           <el-form-item class="btns">
-            <el-button class="btn_login" @click="login">登录</el-button>
+            <el-button class="btn_login" @click="login" @keyup.enter="login">登录</el-button>
             <el-button type="info">注册</el-button>
           </el-form-item>
         </el-form>
@@ -42,6 +42,15 @@ export default {
       }
     }
   },
+  created(){
+    let that = this;
+    document.onkeydown = function(e){
+        let key = window.event.keyCode;
+        if(key == 13){
+            that.login();
+        }
+    }
+  },
   methods:{
     login(){
       this.$refs.loginFormRef.validate(async (valid) => {
@@ -61,6 +70,7 @@ export default {
         }
         // 将cookie存在sessStorage中，且进行路由跳转
         // 后续的大部分api需要有这个cookie才能访问
+        
         window.sessionStorage.setItem("cookie",res.cookie)
         this.$router.push("/homepage")
       })

@@ -8,7 +8,7 @@ import Playlistdetail from '../components/Playlistdetail.vue'
 import FindMusic from '../components/FindMusic.vue'
 import Lyrics from '../components/Lyrics.vue'
 import Homepage from '../components/Homepage.vue'
-
+import Artist from '../components/Artist.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +22,7 @@ const routes = [
     children: [
       {path:'/homepage',component: Homepage},
       {path:'/findmusic',component: FindMusic},
+      {path:'/artist',component: Artist},
       {path:'/profile',component : Profile},
       {path:'/playlistdetail',component : Playlistdetail},
       {path:'/lyrics',component : Lyrics}

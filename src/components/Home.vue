@@ -12,7 +12,7 @@
                     <el-menu-item class="logo"><img src="../assets/logo.png"></el-menu-item>
                     <el-menu-item index="homepage">首页</el-menu-item>
                     <el-menu-item index="findmusic">发现音乐</el-menu-item>
-                    <el-menu-item index="2">我的音乐</el-menu-item>
+                    <el-menu-item index="artist">音乐人</el-menu-item>
                     <el-submenu class="avatar" index="3">
                         <template slot="title"><img v-bind:src="avatarUrl"></template>
                         <el-menu-item index="profile"><i class="el-icon-user"></i>我的主页</el-menu-item>

@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <section>
+        <!-- <section>
 
         </section>
         <section>
@@ -8,8 +8,24 @@
         </section>
         <section>
             <p>{{lyrics}}</p>
-        </section>
+        </section> -->
 
+      <div class="player">
+        <div class="normal-player">
+          <div class="background">
+            <img :src="al_picUrl" width="400px">
+          </div>
+          <div class="top">
+            <div class="back">
+              <i class="icon-back"></i>
+            </div>
+            <h1 class="title">{{songName}}</h1>
+            <h2 class="title">{{artistName}}</h2>
+          </div>
+        </div>
+        <audio :src="mp3Url" controls="controls"></audio>
+        <p>{{lyrics}}</p>
+      </div>
     </div>
 </template>
 
@@ -22,7 +38,10 @@ export default {
       lyrics:'',
       lyricUser:'',
       transUser:'',
-      currentLyric:''
+      currentLyric:'',
+      songName:this.$route.query.name,
+      artistName:this.$route.query.ar,
+      al_picUrl:this.$route.query.al_picUrl
     };
   },
   created() {
@@ -32,8 +51,8 @@ export default {
   methods: {
     async playsong(){
         let id = this.$route.query.id;
-        // console.log(id)
         const {data:res} = await this.$http.get("/song/url?id=" + id);
+        // console.log(res)
         this.mp3Url = res.data[0].url;
     },
     
@@ -47,11 +66,9 @@ export default {
         this.transUser = res.transUser
 
 
-
-
         this.lyrics = res.lrc.lyric
         
-        //  let currentLyric = new Lyric(lyric, this.lyricHandle)
+        //  let currentLyric = new Lyric (lyric, this.lyricHandle)
         //  console.log(currentLyric);
          
     }
