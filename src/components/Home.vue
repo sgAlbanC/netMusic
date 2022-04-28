@@ -49,13 +49,14 @@ export default {
   components: { Aside },
     data() {
       return {
-        activeIndex: '1',
+        activeIndex: 'homepage',
         input:'',
         avatarUrl:'######'
       }
     },
     created(){
         this.getavatar()
+        this.getActiveIndex()
     },
     methods:{
         getavatar(){
@@ -67,6 +68,10 @@ export default {
         },
         handleSelect(key, keyPath) {
             console.log(key, keyPath);
+            window.sessionStorage.setItem("activeIndex",key)
+        },
+        getActiveIndex(){
+            this.activeIndex = window.sessionStorage.getItem("activeIndex")         
         }
         
     }

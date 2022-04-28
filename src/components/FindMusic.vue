@@ -8,7 +8,7 @@
                 <el-card>
                     <div class="tagsinfo_box">
                         <div class="tags_style" v-for="item in tags" :key="item.id">
-                            <div class="tags_name" @click="getTagsName(item.name)">{{item.name}} // </div>
+                            <div class="tags_name" @click="getTagsName(item.name)">{{item.name}}</div>
                         </div>
                     </div>
                 </el-card>
@@ -80,11 +80,12 @@ export default ({
         padding:10px 0;
     }
     .tagsinfo_box{
-        height: 50px;
+        height: 25px;
         .tags_style{
             float: left;
+            margin-right: 10px;
         .tags_name:hover{
-            color: aquamarine;
+            color: #FAD04B;
             cursor:pointer;
         }
     }

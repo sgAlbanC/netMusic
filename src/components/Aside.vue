@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-container class="main">
+        <div class="main">
             <div class="searchhot_box">
                 <div class="searchhot_logo">
                     <strong>热搜</strong>
@@ -11,7 +11,7 @@
                     <div>{{item.first}}</div>
                 </div>
             </div>
-        </el-container>        
+        </div>        
     </div>
 </template>
 
@@ -37,17 +37,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// .main{
-//     // text-align: center;
-// }
 .searchhot_box{
     padding: 20px;
     .searchhot_logo{
         padding: 10px 0 0 0;
         font-size: 1.17rem;
+        color: #C2170C;
+        .el-divider__text{
+            color: #ffd04b;
+        }
     }
     .searchhot_list{
         padding-top: 10px;
+        width: 160px;   /* Aside的200px - 左右padding的20px = 160px */
         overflow:hidden;
         text-overflow:ellipsis;  /* 溢出用省略号表示 */
         white-space:nowrap;  /* 始终保持在一行显示 */

@@ -55,13 +55,13 @@ export default ({
     }
     .el-row{
         .el-col{
-            width: 200px;
-            height: 230px;
+            width: 150px;
+            height: 150px;
             .imgbox{
-                width: 180px;
+                width: 130px;
+                height: 130px;
                 position: absolute;
                 .el-image{
-                    height: 180px;
                     cursor:pointer;
                 }
                 .artistname{

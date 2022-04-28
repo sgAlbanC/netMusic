@@ -72,6 +72,7 @@ export default {
         // 后续的大部分api需要有这个cookie才能访问
         
         window.sessionStorage.setItem("cookie",res.cookie)
+        window.sessionStorage.setItem("activeIndex",'homepage') 
         this.$router.push("/homepage")
       })
     }

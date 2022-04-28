@@ -20,9 +20,8 @@
           <!-- <div class="create_time">{{createTime}}</div> -->
         </div>
         <div class="tags_box">
-          <strong>tags:</strong>
-          <div class="tags" v-for="item in tags" :key="item.index">
-            _{{ item }}
+          <strong>标签:</strong>
+          <div class="tags" v-for="item in tags" :key="item.index"> {{ item }}
           </div>
           <div class="clear"></div>
         </div>
@@ -182,9 +181,11 @@ export default {
     .tags_box {
       strong {
         float: left;
+        margin-right: 5px;
       }
       .tags {
         float: left;
+        margin-right: 10px;
       }
       .clear {
         clear: both;
@@ -196,7 +197,7 @@ export default {
       margin-top: 5px;
       overflow: hidden;
       text-overflow: ellipsis;
-      // white-space: nowrap;
+      // white-space: nowrap; 默认是wrap 会换行
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
