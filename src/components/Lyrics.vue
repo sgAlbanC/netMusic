@@ -1,15 +1,5 @@
 <template>
     <div class="main">
-        <!-- <section>
-
-        </section>
-        <section>
-            <audio :src="mp3Url" controls="controls"></audio>
-        </section>
-        <section>
-            <p>{{lyrics}}</p>
-        </section> -->
-
       <div class="player">
         <div class="normal-player">
           <div class="background">
@@ -19,8 +9,8 @@
             <div class="back">
               <i class="icon-back"></i>
             </div>
-            <h1 class="title">{{songName}}</h1>
-            <h2 class="title">{{artistName}}</h2>
+            <h2 class="title">{{songName}}</h2>
+            <h1 class="title">{{artistName}}</h1>
           </div>
         </div>
         <audio :src="mp3Url" controls="controls"></audio>
@@ -30,7 +20,6 @@
 </template>
 
 <script>
-// import Lyric from 'lyric-parser'
 export default {
   data() {
     return {
@@ -67,10 +56,7 @@ export default {
 
 
         this.lyrics = res.lrc.lyric
-        
-        //  let currentLyric = new Lyric (lyric, this.lyricHandle)
-        //  console.log(currentLyric);
-         
+
     }
   },    
 };

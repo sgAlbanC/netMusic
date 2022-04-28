@@ -99,7 +99,7 @@ export default ({
             height: 230px;
             .imgbox{
                 width: 180px;
-                position: absolute;
+                position: relative;
                 .el-image{
                     height: 180px;
                     cursor:pointer;
@@ -113,8 +113,10 @@ export default ({
                     background-color: lightcyan;
                     opacity: 0.8;
                     padding: 5px;
-                    position:relative;
-                    top: -3.7rem;
+                    position:absolute;
+                    width: 170px;   // 180px -5 -5 = 170px
+                    bottom: 1.7rem;
+                    // top:158px
                 }
             }         
         }    
