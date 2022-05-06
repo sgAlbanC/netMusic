@@ -67,7 +67,7 @@ export default {
             this.$router.push("/login")
         },
         handleSelect(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
             window.sessionStorage.setItem("activeIndex",key)
         },
         getActiveIndex(){

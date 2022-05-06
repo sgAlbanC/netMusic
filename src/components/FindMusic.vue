@@ -80,15 +80,15 @@ export default ({
         padding:10px 0;
     }
     .tagsinfo_box{
-        height: 25px;
+        display: flex;
+        flex-wrap: wrap ;
         .tags_style{
-            float: left;
             margin-right: 10px;
-        .tags_name:hover{
-            color: #FAD04B;
-            cursor:pointer;
+            .tags_name:hover{
+                color: #FAD04B;
+                cursor:pointer;
+            }
         }
-    }
     }
     h3{
         display: inline;

@@ -39,7 +39,7 @@ export default ({
         async getArtistList(){
             const {data:res} = await this.$http.get('/artist/list')
             this.artists = res.artists
-            console.log(this.artists)
+            // console.log(this.artists)
         }
     }
 })
