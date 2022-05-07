@@ -91,18 +91,31 @@ export default {
   methods: {
     async getPlaylistDetail() {
       let id = this.$route.query.id;
-      const { data: res } = await this.$http.get("/playlist/detail?id=" + id);
-      //    console.log(res)
-      this.name = res.playlist.name;
-      this.creatorNickname = res.playlist.creator.nickname;
-      this.createTime = res.playlist.createTime;
-      this.coverImgUrl = res.playlist.coverImgUrl;
-      this.avatarUrl = res.playlist.creator.avatarUrl;
-      this.tags = res.playlist.tags;
-      this.description = res.playlist.description;
+      if(this.$route.query.index!=0){
+        const { data: res } = await this.$http.get("/playlist/detail?id=" + id);
+        console.log(res)
+        this.name = res.playlist.name;
+        this.creatorNickname = res.playlist.creator.nickname;
+        this.createTime = res.playlist.createTime;
+        this.coverImgUrl = res.playlist.coverImgUrl;
+        this.avatarUrl = res.playlist.creator.avatarUrl;
+        this.tags = res.playlist.tags;
+        this.description = res.playlist.description;
 
-      this.trackCount = res.playlist.trackCount;
-      this.tracks = res.playlist.tracks;
+        this.trackCount = res.playlist.trackCount;
+        this.tracks = res.playlist.tracks;
+      }else{
+        const { data: res } = await this.$http.get("/likelist/detail?id=" + id+'&cookie='+window.sessionStorage.getItem('cookie'));
+        this.trackCount = res.ids.length
+        // 暂时只显示20首歌
+        this.getlikelistsongs(res.ids.splice(0,20))
+      }
+    },
+    async getlikelistsongs(ids){
+       const { data: res } = await this.$http.get("/song/detail?ids=" + ids+'&cookie='+window.sessionStorage.getItem('cookie'));
+       this.coverImgUrl = window.sessionStorage.getItem('avatarUrl')
+       this.avatarUrl = window.sessionStorage.getItem('avatarUrl')
+       this.tracks = res.songs
     },
 
     async getSongUrl(index, row) {

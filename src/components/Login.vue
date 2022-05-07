@@ -29,8 +29,8 @@ export default {
     return {
       // 这是登录页面的绑定对象
       loginForm:{
-        phone:'15320215923',
-        password:'123456'
+        phone:'15320290734',
+        password:'aa123456'
       },
       registerFormrules:{
         phone:[

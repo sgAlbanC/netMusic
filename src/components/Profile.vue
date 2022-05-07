@@ -20,13 +20,32 @@
         <div class="container">
             <section>
                 <div class="table-top">
-                    <h3>听歌排行</h3> 累计听歌{{listenSongs}}首
+                    <h3>最近听歌</h3> 共{{trackCount}}首
                 </div>
                 
-                <el-table :data="tableData" stripe style="width: 100%">
-                    <el-table-column prop="date" label="歌曲标题" width="180"> </el-table-column>
-                    <el-table-column prop="name" label="时长" width="180"> </el-table-column>
-                    <el-table-column  prop="address" label="歌手"> </el-table-column>
+                <el-table
+                :data="tracks"
+                empty-text="暂无数据"
+                stripe
+                style="width: 100%"
+                >
+                <el-table-column prop="data.name" label="歌曲标题" width="220">
+                </el-table-column>
+                <el-table-column prop="data.ar[0].name" label="歌手" width="220">
+                </el-table-column>
+                <el-table-column prop="playTime" label="播放时间" width="220">
+                </el-table-column>
+                <el-table-column prop="data.al.name" label="专辑" width="220">
+                </el-table-column>
+                <el-table-column>
+                    <template slot-scope="scope">
+                    <img
+                        @click="getSongUrl(scope.$index, scope.row)"
+                        class="bofang-icon"
+                        src="../assets/bofang.svg"
+                    />
+                    </template>
+                </el-table-column>
                 </el-table>
             </section>
             <section>
@@ -34,9 +53,9 @@
                     <h3>我的歌单</h3>（{{subPlaylistCount}}）
                 </div>
                 <el-row>
-                    <el-col :span="4"  v-for="item in playlist" :key="item.index">
+                    <el-col :span="4"  v-for="(item,index) in playlist" :key="index">
                         <div class="imgbox">
-                            <el-image :src="item.coverImgUrl" @click="toPlaylistDetail(item.id)" lazy></el-image>
+                            <el-image :src="item.coverImgUrl" @click="toPlaylistDetail(item.id,index)" lazy></el-image>
                             <div class="listname">{{item.name}}</div>
                             <div class="playcount"><i class="el-icon-headset"></i> {{item.playCount}} <i class="el-icon-video-play right"></i></div>
                         </div>
@@ -64,23 +83,8 @@ export default ({
             followeds:0,
             follows:0,
             subPlaylistCount:0,
-            tableData: [{
-                date: 'clouds',
-                name: '04:03',
-                address: 'NF'
-                }, {
-                date: 'Hate Myself',
-                name: '03:40',
-                address: '04:12'
-                }, {
-                date: 'Change',
-                name: '04:02',
-                address: '03:46'
-                }, {
-                date: 'Lost',
-                name: '03:56',
-                address: 'NF'
-            }],
+            trackCount:0,
+            tracks: [],
             playlist:[],
             playlistid:[]
         }      
@@ -88,6 +92,8 @@ export default ({
     created(){
         this.getUserInfo()
         this.getSongMV()
+        this.getRecommendSongs()
+        this.getRecentSongs()
         this.getPlaylist()
     },
     methods:{
@@ -123,20 +129,69 @@ export default ({
             // console.log(res)
             this.subPlaylistCount = res.subPlaylistCount + res.createdPlaylistCount
         },
+        
+        async getRecommendSongs(){
+            const {data:res} = await this.$http.get('/recommend/songs?cookie='+window.sessionStorage.getItem('cookie'));
+            // console.log(res)
+        },
+
+        async getRecentSongs(){
+            const {data:res} = await this.$http.get('/record/recent/song?cookie='+window.sessionStorage.getItem('cookie'));
+            this.trackCount = res.data.total
+            console.log(res)
+            for(let i=0;i<res.data.total;i++){
+                res.data.list[i].playTime = new Date(res.data.list[i].playTime);
+                res.data.list[i].playTime=(res.data.list[i].playTime.toString()).substring(16,24)
+            }
+            this.tracks = res.data.list.splice(0,5)
+        },
 
         async getPlaylist(){
             const {data:res} = await this.$http.get('/user/playlist?limit=27&uid='+window.sessionStorage.getItem('uid'));
             // console.log(res)
-            console.log(res.playlist)
+            // console.log(res.playlist)
             this.playlist = res.playlist
         },
 
         // 跳转页面;这里的id是歌单的id，然后传过去
-        toPlaylistDetail(id){
+        toPlaylistDetail(id,index){
             this.$router.push({
                 path:"/playlistdetail",
                 query: {   
-                    id: id
+                    id: id,
+                    index:index
+                } 
+            })
+        },
+
+        async getSongUrl(index, row) {
+            row=row.data
+            let id = row.id;
+            let name = row.name;
+            // 歌手名字 歌手id
+            let ar = row.ar[0].name;
+            let ar_id = row.ar[0].id
+
+            let al_picUrl = row.al.picUrl
+            //  检查音乐是否可播放  
+            try {
+                // 第一个请求只是看是否能请求成功，不会用到变量
+                let check= await this.$http.get("/check/music?id=" + id);
+                this.toLyrics(id,name,ar,al_picUrl)
+            }catch (error) {
+                console.log(error);
+                this.$message({ message: "亲爱的，暂无版权!" });
+                }
+            },
+
+        toLyrics(id,name,ar,al_picUrl){
+            this.$router.push({
+                path:"/lyrics",
+                query: {   
+                    id: id,
+                    name:name,
+                    ar:ar,
+                    al_picUrl:al_picUrl
                 } 
             })
         }
@@ -168,12 +223,24 @@ export default ({
         clear: both;
     }
 }
+
 .container{
     .table-top{
         padding:10px 0;
     }
     h3{
         display: inline;
+    }
+    .el-table {
+        .el-table-column {
+        overflow: hidden;
+        text-overflow: ellipsis; /* 溢出用省略号表示 */
+        white-space: nowrap; /* 始终保持在一行显示 */
+        }
+    }
+    .bofang-icon {
+        width: 2rem;
+        cursor: pointer;
     }
     .el-row{
         .el-col{

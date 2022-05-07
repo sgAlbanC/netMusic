@@ -67,7 +67,7 @@ export default ({
         },
         async getPlaylist(){
             const {data:res} = await this.$http.get('/personalized?limit=10');
-            console.log(res)
+            // console.log(res)
             // 注意！！！！ 这里是请求回来的是 playlists ，多一个s 复数
             this.playlist = res.result
         },
