@@ -105,7 +105,8 @@ export default {
         this.trackCount = res.playlist.trackCount;
         this.tracks = res.playlist.tracks;
       }else{
-        const { data: res } = await this.$http.get("/likelist/detail?id=" + id+'&cookie='+window.sessionStorage.getItem('cookie'));
+        // 这里api /likelist/detail?id= 和 /likelist?id= 是一样的
+        const { data: res } = await this.$http.get("/likelist?id=" + id+'&cookie='+window.sessionStorage.getItem('cookie'));
         this.trackCount = res.ids.length
         // 暂时只显示20首歌
         this.getlikelistsongs(res.ids.splice(0,20))

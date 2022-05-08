@@ -28,6 +28,7 @@
                 empty-text="暂无数据"
                 stripe
                 style="width: 100%"
+
                 >
                 <el-table-column prop="data.name" label="歌曲标题" width="220">
                 </el-table-column>
@@ -39,11 +40,27 @@
                 </el-table-column>
                 <el-table-column>
                     <template slot-scope="scope">
-                    <img
-                        @click="getSongUrl(scope.$index, scope.row)"
-                        class="bofang-icon"
-                        src="../assets/bofang.svg"
-                    />
+                        <div  class="action">
+                            <div v-if="(likedSongs.indexOf(scope.row.data.id) == -1 )">
+                                <img @click="likeSong(scope.row,true)"
+                                    class="icon" 
+                                    src="../assets/like0.svg"
+                                />
+                            </div>
+                            <div v-else>
+                                <img @click="likeSong(scope.row,false)"
+                                    class="icon" 
+                                    src="../assets/like1.svg"
+                                />
+                            </div>
+                            <div>
+                                <img
+                                    @click="getSongUrl(scope.$index, scope.row)"
+                                    class="icon"
+                                    src="../assets/bofang.svg"
+                                />
+                            </div>
+                        </div>
                     </template>
                 </el-table-column>
                 </el-table>
@@ -73,7 +90,6 @@
 export default ({
     data(){
         return{
-
             nickname:'Det',
             level:0,
             listenSongs: 0,
@@ -86,7 +102,8 @@ export default ({
             trackCount:0,
             tracks: [],
             playlist:[],
-            playlistid:[]
+            playlistid:[],
+            likedSongs:[]
         }      
     },
     created(){
@@ -135,26 +152,69 @@ export default ({
             // console.log(res)
         },
 
+        async likeSong(row,like){
+            row = row.data
+            let id = row.id
+            // 发起 喜欢音乐 请求
+            const {data:res} = await this.$http.get('/like?like='+like+'&id='+id+'&cookie='+window.sessionStorage.getItem('cookie'))
+            // 返回 200 还有添加到的歌单的id
+            if(res.code==200){
+                this.$message({ message: "操作成功!",type: 'success',offset:100 });
+            }else{
+                this.$message({ message: "操作失败!",type: 'success',offset:100 });
+            }
+        },
+        
+        async islike(rids){
+            const { data: res } = await this.$http.get("/likelist?id=" + window.sessionStorage.getItem('uid')+'&cookie='+window.sessionStorage.getItem('cookie'));
+            // 对比两个数组 得到相同的id
+            // 然后赋值给一个数组变量
+            // 再判断上面的某id是否属于这个数组里面
+
+            function getSame2(arr1,arr2){
+                let arr3=arr1.filter(item=>{
+                    return arr2.includes(item)
+                })
+                return arr3
+            }
+
+            function getSame(arr1, arr2) {
+                return [...new Set(arr2)].filter(item => 
+                    arr1.includes(item)
+                )
+            }  
+            this.likedSongs=getSame2(rids,res.ids)
+        },
+
         async getRecentSongs(){
             const {data:res} = await this.$http.get('/record/recent/song?cookie='+window.sessionStorage.getItem('cookie'));
             this.trackCount = res.data.total
-            console.log(res)
             for(let i=0;i<res.data.total;i++){
                 res.data.list[i].playTime = new Date(res.data.list[i].playTime);
                 res.data.list[i].playTime=(res.data.list[i].playTime.toString()).substring(16,24)
             }
-            this.tracks = res.data.list.splice(0,5)
+            let rids = []
+            for(let i=0;i<res.data.list.length;i++){
+                rids[i] = res.data.list[i].data.id
+            }
+            this.islike(rids)
+            // 思路2: 这里返回出来一组index，将相同歌曲的trakcs多一个字段，表示是否喜欢
+            // 然后上面可以直接用这个字段
+            // 我们再用一个数组变量去 直接监听，点击就变，false true。
+            // v-if那里， 如果两个变量（一个是tracks的某字段，一个是数组变量）；如果两个都相同，就不变，若两个不同，就变成第二个的样子
+            // img里面那个要点击的时候才会出触发事件。
+            this.tracks = res.data.list.slice(0,5)
+            console.log(this.tracks)
         },
 
         async getPlaylist(){
             const {data:res} = await this.$http.get('/user/playlist?limit=27&uid='+window.sessionStorage.getItem('uid'));
-            // console.log(res)
-            // console.log(res.playlist)
             this.playlist = res.playlist
         },
 
         // 跳转页面;这里的id是歌单的id，然后传过去
         toPlaylistDetail(id,index){
+            console.log(id)
             this.$router.push({
                 path:"/playlistdetail",
                 query: {   
@@ -238,9 +298,12 @@ export default ({
         white-space: nowrap; /* 始终保持在一行显示 */
         }
     }
-    .bofang-icon {
-        width: 2rem;
-        cursor: pointer;
+    .action{
+        display: flex;
+        .icon {
+            width: 2rem;
+            cursor: pointer;
+        }
     }
     .el-row{
         .el-col{

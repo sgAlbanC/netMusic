@@ -39,7 +39,7 @@
                   <div class="action">
                       <div class="likedCount">
                         <div class="like">
-                          <div v-if="(item.liked==false)">
+                          <div v-if="item.liked==false">
                             <img @click="likecomment(item.commentId,1,index)" src="../assets/like0.svg" />
                           </div>
                           <div v-else><img @click="likecomment(item.commentId,0,index)" src="../assets/like1.svg" /></div>
@@ -87,6 +87,7 @@ export default {
       // 评论部分
       comments:[],
       hotComments:[],
+      comments_total:0,
       tabactiveName: 'first'
     };
   },
@@ -111,6 +112,7 @@ export default {
         const {data:res} = await this.$http.get("/comment/music?id=" + this.id);
         this.comments = res.comments
         this.hotComments = res.hotComments
+        this.comments_total = res.total
         console.log(res)
     },
 
