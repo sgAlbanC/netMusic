@@ -44,20 +44,20 @@
                             <div v-if="(likedSongs.indexOf(scope.row.data.id) == -1 )">
                                 <img @click="likeSong(scope.row,true)"
                                     class="icon" 
-                                    src="../assets/like0.svg"
+                                    src="../../assets/like0.svg"
                                 />
                             </div>
                             <div v-else>
                                 <img @click="likeSong(scope.row,false)"
                                     class="icon" 
-                                    src="../assets/like1.svg"
+                                    src="../../assets/like1.svg"
                                 />
                             </div>
                             <div>
                                 <img
                                     @click="getSongUrl(scope.$index, scope.row)"
                                     class="icon"
-                                    src="../assets/bofang.svg"
+                                    src="../../assets/bofang.svg"
                                 />
                             </div>
                         </div>
@@ -216,7 +216,7 @@ export default ({
         toPlaylistDetail(id,index){
             console.log(id)
             this.$router.push({
-                path:"/playlistdetail",
+                path:"/album",
                 query: {   
                     id: id,
                     index:index

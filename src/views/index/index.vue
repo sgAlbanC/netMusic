@@ -9,8 +9,8 @@
                     active-text-color="#ffd04b"
                     background-color="#242424"
                     router>
-                    <el-menu-item class="logo"><img src="../assets/logo.png"></el-menu-item>
-                    <el-menu-item index="homepage">首页</el-menu-item>
+                    <el-menu-item class="logo"><img src="../../assets/logo.png"></el-menu-item>
+                    <el-menu-item index="home">首页</el-menu-item>
                     <el-menu-item index="findmusic">发现音乐</el-menu-item>
                     <el-menu-item index="artist">音乐人</el-menu-item>
                     <el-submenu class="avatar" index="3">
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Aside from './Aside.vue'
+import Aside from '../../components/Aside.vue'
 export default {
   components: { Aside },
     data() {

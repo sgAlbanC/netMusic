@@ -1,30 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/Login.vue'
-import Register from '../components/Register.vue'
-import Home from '../components/Home.vue'
-import Profile from '../components/Profile.vue'
-import Playlistdetail from '../components/Playlistdetail.vue'
-import FindMusic from '../components/FindMusic.vue'
-import Lyrics from '../components/Lyrics.vue'
-import Homepage from '../components/Homepage.vue'
-import Artist from '../components/Artist.vue'
+import Login from '../views/login'
+import Index from '../views/index'
+import Profile from '../views/profile'
+import Album from '../views/album'
+import FindMusic from '../views/findmusic'
+import Lyrics from '../views/lyrics'
+import Home from '../views/home'
+import Artist from '../views/artist'
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect:'/login' },
   { path: '/login', component : Login },
-  { path: '/register', component : Register },
   { 
-    path: '/home', 
-    component : Home,
+    path: '/index', 
+    component : Index,
     // redirect:'/index',
     children: [
-      {path:'/homepage',component: Homepage},
+      {path:'/home',component: Home},
       {path:'/findmusic',component: FindMusic},
       {path:'/artist',component: Artist},
       {path:'/profile',component : Profile},
-      {path:'/playlistdetail',component : Playlistdetail},
+      {path:'/album',component : Album},
       {path:'/lyrics',component : Lyrics}
     ]}
 ]

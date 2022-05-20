@@ -22,7 +22,11 @@
                         <div class="imgbox">
                             <el-image :src="item.coverImgUrl" @click="toPlaylistDetail(item.id)" lazy></el-image>
                             <div class="listname">{{item.name}}</div>
-                            <div class="playcount"><i class="el-icon-headset"></i> {{item.playCount}} <i class="el-icon-video-play right"></i></div>
+                            <div class="playcount">
+                                <i class="el-icon-headset"></i> 
+                                {{item.playCount}} 
+                                <i class="el-icon-video-play"></i>
+                            </div>
                         </div>
                     </el-col>
                 </el-row>
@@ -64,7 +68,7 @@ export default ({
         // 跳转页面;这里的id是歌单的id，然后传过去
         toPlaylistDetail(id){
             this.$router.push({
-                path:"/playlistdetail",
+                path:"/ablum",
                 query: {   
                     id: id
                 } 
@@ -101,6 +105,7 @@ export default ({
                 width: 180px;
                 position: relative;
                 .el-image{
+                    width: 180px;
                     height: 180px;
                     cursor:pointer;
                 }
@@ -110,13 +115,21 @@ export default ({
                     white-space:nowrap;  /* 始终保持在一行显示 */
                 }
                 .playcount{
+                    display: inline-block;
                     background-color: lightcyan;
                     opacity: 0.8;
-                    padding: 5px;
+                    padding: 0 5px;
+                    line-height: 32px;
+                    vertical-align: middle;
                     position:absolute;
                     width: 170px;   // 180px -5 -5 = 170px
-                    bottom: 1.7rem;
-                    // top:158px
+                    top:148px;  // 180-32px = 148px
+
+                    i:nth-child(2){
+                        position: absolute;
+                        top: 8px;       // 自身大小16px
+                        right: 8px;
+                    }
                 }
             }         
         }    

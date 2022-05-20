@@ -40,9 +40,9 @@
                       <div class="likedCount">
                         <div class="like">
                           <div v-if="item.liked==false">
-                            <img @click="likecomment(item.commentId,1,index)" src="../assets/like0.svg" />
+                            <img @click="likecomment(item.commentId,1,index)" src="../../assets/like0.svg" />
                           </div>
-                          <div v-else><img @click="likecomment(item.commentId,0,index)" src="../assets/like1.svg" /></div>
+                          <div v-else><img @click="likecomment(item.commentId,0,index)" src="../../assets/like1.svg" /></div>
                         </div>
                         <div>({{item.likedCount}})</div>
                       </div>

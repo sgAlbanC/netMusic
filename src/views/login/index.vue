@@ -92,7 +92,7 @@ export default {
   height: 300px;
   background-color:#fff;
   border-radius: 4px;
-  position: absolute;
+  position: absolute; // 就是绝对定位
   top:48%;
   left:50%;
   transform: translate(-50%,-50%);
