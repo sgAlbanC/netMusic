@@ -12,9 +12,9 @@ import './assets/css/global.css'
 import axios from 'axios'
 // 配置axios请求的根路径
 
-axios.defaults.baseURL = 'http://zgy.ink:3001/'
+// axios.defaults.baseURL = 'http://zgy.ink:3001/'
 
-// axios.defaults.baseURL = 'https://netease-cloud-music-api-rose-sigma.vercel.app/'
+axios.defaults.baseURL = 'https://netease-cloud-music-api-rose-sigma.vercel.app/'
 
 // axios.interceptors.request.use(config => {
 //   // console.log(config)
