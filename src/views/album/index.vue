@@ -17,7 +17,6 @@
             </div>
           </el-image>
           <div class="creator_nickname">{{ creatorNickname }}</div>
-          <!-- <div class="create_time">{{createTime}}</div> -->
         </div>
         <div class="tags_box">
           <strong>标签:</strong>

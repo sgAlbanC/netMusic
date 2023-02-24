@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container">
+        <div class="artist-container">
             <section>
                 <div class="table-top">
                     <h3>歌手</h3>
@@ -34,8 +34,12 @@ export default ({
     },
     created(){
         this.getArtistList()
+        this.setActiveBoard()
     },
     methods:{
+        setActiveBoard(){
+            this.$store.commit('setActiveBoardId','artist')
+        },
         async getArtistList(){
             const {data:res} = await this.$http.get('/artist/list')
             this.artists = res.artists
@@ -46,5 +50,40 @@ export default ({
 </script>
 
 <style lang="less" scoped>
-@import url(./index.less);
+
+.artist-container{
+    .table-top{
+        padding:10px 0;
+    }
+    h3{
+        display: inline;
+    }
+    .el-row{
+        .el-col{
+            width: 150px;
+            height: 150px;
+            .imgbox{
+                width: 130px;
+                height: 130px;
+                position: absolute;
+                .el-image{
+                    cursor:pointer;
+                    width: 100%;
+                }
+                .artistname{
+                    overflow:hidden;
+                    text-overflow:ellipsis;  /* 溢出用省略号表示 */
+                    white-space:nowrap;  /* 始终保持在一行显示 */
+                }
+                // .playcount{
+                //     background-color: lightcyan;
+                //     opacity: 0.8;
+                //     padding: 5px;
+                //     position:relative;
+                //     top: -3.7rem;
+                // }
+            }         
+        }    
+    }
+}
 </style>

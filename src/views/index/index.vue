@@ -1,20 +1,19 @@
 <template>
     <div>
-        <el-container class="main">
+        <el-container class="homepage-container">
             <el-header>
                 <el-menu
                     :default-active="activeIndex"
                     mode="horizontal"
-                    @select="handleSelect"
                     active-text-color="#ffd04b"
                     background-color="#242424"
                     router>
                     <el-menu-item class="logo"><img src="../../assets/logo.png"></el-menu-item>
-                    <el-menu-item index="home">首页</el-menu-item>
+                    <el-menu-item index="homepage">首页</el-menu-item>
                     <el-menu-item index="findmusic">发现音乐</el-menu-item>
                     <el-menu-item index="artist">音乐人</el-menu-item>
                     <el-submenu class="avatar" index="3">
-                        <template slot="title"><img v-bind:src="avatarUrl"></template>
+                        <template slot="title"><img :src="[avatarUrl?avatarUrl:'../../assets/logo.png']"></template>
                         <el-menu-item index="profile"><i class="el-icon-user"></i>我的主页</el-menu-item>
                         <el-menu-item index="3-2"><i class="el-icon-medal"></i>我的等级</el-menu-item>
                         <el-menu-item index="3-3"><i class="el-icon-setting"></i>个人设置</el-menu-item>
@@ -28,17 +27,18 @@
                 </el-menu>
             </el-header>
             <el-container>
-            <el-container>
                 <el-aside width="200px">
                     <Aside></Aside>
-                </el-aside>  
+                </el-aside> 
+
+                <!-- 主页内容  -->
                 <el-main>
                     <router-view></router-view>
                 </el-main>
             </el-container>
-            <el-footer>Footer</el-footer>
-            
-            </el-container>
+            <el-footer>
+                Footer
+            </el-footer>
         </el-container>        
     </div>
 </template>
@@ -46,12 +46,12 @@
 <script>
 import Aside from '../../components/Aside.vue'
 export default {
-  components: { Aside },
+    components: { Aside },
     data() {
       return {
-        activeIndex: 'homepage',
+        activeIndex: 'hompage',
         input:'',
-        avatarUrl:'######'
+        avatarUrl:''
       }
     },
     created(){
@@ -66,41 +66,49 @@ export default {
             window.sessionStorage.clear()
             this.$router.push("/login")
         },
-        handleSelect(key, keyPath) {
-            // console.log(key, keyPath);
-            window.sessionStorage.setItem("activeIndex",key)
-        },
         getActiveIndex(){
-            this.activeIndex = window.sessionStorage.getItem("activeIndex")         
+            // 这里需要从store中拿到
+            this.activeIndex = this.$store.getters.getActiveBoardId
         }
         
-    }
+    },
+    watch: {
+        activeIndex(newVal,oldVal){
+            this.getActiveIndex()
+        }
+    },
 }
 </script>
 
 <style lang="less" scoped>
-.main{
-    min-height: 56rem;
+@import "../../assets/css/globalcolor.less";
+.homepage-container{
+    height: 100vh;
 }
 .el-header, .el-footer {
-    background-color: #242424;
+    background-color:@black-color;
     color: #ccc;
     text-align: center;
-    line-height: 60px;
+    align-items: center;
 }
+
+
 .el-menu {
     margin-left: 11rem;
     min-width: 56rem;
+    .el-menu-item{
+        color: #ccc;
+    }
 }
   
 .el-aside {
     background-color: #fff;
-    color: #333;
+    color: @font-black-color;
 }
   
 .el-main {
     background-color: #f5f5f5;
-    color: #333;
+    color: @font-black-color;
     min-width: 40rem;
 }
 .logo img{

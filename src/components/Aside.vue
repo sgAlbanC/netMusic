@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="main">
+        <div class="aside-container">
             <div class="searchhot_box">
                 <div class="searchhot_logo">
                     <strong>热搜</strong>
@@ -38,7 +38,7 @@ export default {
 
 <style lang="less" scoped>
 .searchhot_box{
-    padding: 20px;
+    padding: 20px 20px;
     .searchhot_logo{
         padding: 10px 0 0 0;
         font-size: 1.17rem;

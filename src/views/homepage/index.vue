@@ -9,17 +9,16 @@
         </div>
 
         <div class="ball_box">
-            <div class="ball" v-for="item in balllist" :key="item.index">
-                <img :src="item.iconUrl">
-                <div>{{item.name}}</div>
+            <div class="ball" v-for="(item,index) in balllist" :key="index">
+                <div :class="['iconfont',iconClass[index]]"></div>
+                <div class="ball_name">{{item.name}}</div>
             </div>
-            <el-divider></el-divider>
             <div class="clear"></div>
         </div>
 
 
         <section class="recommend_box">
-            <div class="table-top">
+            <div class="table-title">
                 <h3>推荐歌单</h3>
             </div>
             <el-row>
@@ -42,27 +41,30 @@ export default ({
         return{  
             banners:[],
             balllist:[],
-            playlist:[]
+            playlist:[],
+            iconClass:['icon-tuijian','icon-shouyinji','icon-gedan','icon-paihangbang','icon-book','icon-changpian','icon-zhibo','icon-yinle','icon-shoucang','icon-wangyou']
         }
     },
     created(){
         this.getHomepageball()
         this.getHomepageblock()
         this.getPlaylist()
+        this.setActiveBoard()
     },
     methods:{
 
+        // 设置activeBoard
+        setActiveBoard(){
+            this.$store.commit('setActiveBoardId','homepage')
+        },
         // 这个是banner 上面左右滑动的东西
         async getHomepageblock(){
             const {data:res} = await this.$http.get('/homepage/block/page')
-            // console.log(res)
-            // console.log(res.data.blocks[3])
             this.banners = res.data.blocks[0].extInfo.banners
         },
         // 这个是中间那些图标 每日推荐等
         async getHomepageball(){
             const {data:res} = await this.$http.get('/homepage/dragon/ball')
-            console.log(res.data)
             this.balllist = res.data
         },
         async getPlaylist(){
@@ -75,7 +77,7 @@ export default ({
         // 跳转页面;这里的id是歌单的id，然后传过去
         toPlaylistDetail(id){
             this.$router.push({
-                path:"/ablum",
+                path:"/album",
                 query: {   
                     id: id
                 } 
@@ -86,11 +88,10 @@ export default ({
 </script>
 
 <style lang="less" scoped>
+@import "../../assets/css/globalcolor.less";
 .main{
     width: 1000px;
     margin: 0 auto;
-    background-color: rgb(231, 221, 178);
-    
   // carousel的偶数个
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
@@ -112,7 +113,8 @@ export default ({
     }
   }
   .ball_box{
-       margin-top:10px;
+       padding: 30px;
+       background-color:@black-color;
        text-align: center;
         .clear{
             clear: both;
@@ -120,19 +122,25 @@ export default ({
         .ball{
             text-align: center;
             display: inline-block;
-            img{
-                width: 4.5rem;
-                height: 4.5rem;
+
+            .iconfont{
+                color: #fff;
+                font-size: 2.5rem;
+                width: 4rem;
+                height: 3.5rem;
+                margin: 0 5px;
             }
-        }
-        .el-divider{
-            background-color: #f5f5f5;
-            height: 10px;
+            .ball_name{
+                color: #fff;
+            }
         }
   }
   .recommend_box{
-    .table-top{
-        margin-left: 10px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+    background: #fff;
+    .table-title{
+        padding: 10px 0 0 0;
+        margin: 20px 0 10px 10px;
     }
     .el-row{
         .el-col{

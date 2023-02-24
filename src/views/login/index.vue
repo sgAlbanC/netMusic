@@ -23,21 +23,21 @@
 </template>
 
 <script>
-
 export default {
+  
   data(){
     return {
       // 这是登录页面的绑定对象
       loginForm:{
-        phone:'15320290734',
-        password:'aa123456'
+        phone:'15320215923',
+        password:'1234567'
       },
       registerFormrules:{
         phone:[
-            { required:true, min: 11, max: 11, message: '长度只能为11位', trigger: 'blur' }
+            { required:true, min: 11, max: 11, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         password:[
-            { required:true, min: 6, max: 15, message: '请输入6~15位密码', trigger: 'blur' }
+            { required:true, min: 6, max: 15, message: '请输入6~20位密码', trigger: 'blur' }
         ]
       }
     }
@@ -55,11 +55,9 @@ export default {
     login(){
       this.$refs.loginFormRef.validate(async (valid) => {
         if(!valid) return;
-        const {data:res} = await this.$http.get('/login/cellphone?phone='+this.loginForm.phone+'&password='+this.loginForm.password);
-        console.log(res)
-        // 这里把id也存起来，后面查看个人信息需要用到
-        window.sessionStorage.setItem("uid",res.account.id)
-        window.sessionStorage.setItem("avatarUrl",res.profile.avatarUrl)
+
+        const {data:res} = await this.$http.get('/register/anonimous')
+        this.$store.state.loginUserInfo = res
 
         if(res.code!==200){     
           this.$message({
@@ -68,11 +66,8 @@ export default {
           });
           return
         }
-        // 将cookie存在sessStorage中，且进行路由跳转
-        // 后续的大部分api需要有这个cookie才能访问
         
         window.sessionStorage.setItem("cookie",res.cookie)
-        window.sessionStorage.setItem("activeIndex",'homepage') 
         this.$router.push("/homepage")
       })
     }

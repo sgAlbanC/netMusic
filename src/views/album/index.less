@@ -1,19 +1,18 @@
 .playlist_info {
+  display: flex;
     .imgbox {
-      float: left;
-      width: 10rem;
+      width: 13rem;
       margin-right: 1rem;
-      background-color: #fff;
       .el-image {
-        margin: 8px;
+        background-color: #fff;
+        padding: 8px;
       }
     }
   
     .infobox {
-      float: left;
-      width: 50rem;
-      padding: 5px 10px 16px;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+      width: 40rem;
+      padding: 10px 10px;
+      padding-bottom: 20px;
       .listname {
         font-size: 1.5rem;
         overflow: hidden;
@@ -22,11 +21,11 @@
       }
       .creator_info {
         height: 42px;
-  
+        display: flex;
+        margin: 10px 0;
+        align-items: center;
         .creator_nickname {
-          height: 42px;
-          display: table-cell;
-          vertical-align: middle;
+          
         }
         .el-image {
           float: left;
@@ -50,13 +49,12 @@
       }
   
       .description {
-        height: 4rem;
         margin-top: 5px;
         overflow: hidden;
         text-overflow: ellipsis;
         // white-space: nowrap; 默认是wrap 会换行
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 3;   // 最多显示3行
         -webkit-box-orient: vertical;
       }
     }

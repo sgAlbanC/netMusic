@@ -49,8 +49,12 @@ export default ({
     created(){
         this.getPlaylist()
         this.getHighqualityTags()
+        this.setActiveBoard()
     },
     methods:{
+        setActiveBoard(){
+            this.$store.commit('setActiveBoardId','findmusic')
+        },
         async getHighqualityTags(){
             const {data:res} = await this.$http.get('/playlist/highquality/tags')
             this.tags = res.tags
@@ -68,7 +72,7 @@ export default ({
         // 跳转页面;这里的id是歌单的id，然后传过去
         toPlaylistDetail(id){
             this.$router.push({
-                path:"/ablum",
+                path:"/album",
                 query: {   
                     id: id
                 } 
