@@ -13,7 +13,7 @@
                     <el-menu-item index="findmusic">发现音乐</el-menu-item>
                     <el-menu-item index="artist">音乐人</el-menu-item>
                     <el-submenu class="avatar" index="3">
-                        <template slot="title"><img :src="[avatarUrl?avatarUrl:'../../assets/logo.png']"></template>
+                        <template slot="title"><img :src="[avatarUrl?avatarUrl:require('../../assets/notlogin.png')]"></template>
                         <el-menu-item index="profile"><i class="el-icon-user"></i>我的主页</el-menu-item>
                         <el-menu-item index="3-2"><i class="el-icon-medal"></i>我的等级</el-menu-item>
                         <el-menu-item index="3-3"><i class="el-icon-setting"></i>个人设置</el-menu-item>
@@ -36,9 +36,10 @@
                     <router-view></router-view>
                 </el-main>
             </el-container>
-            <el-footer>
-                Footer
-            </el-footer>
+            <div class="footer">
+                我倾听大海深处，它在我耳边低声絮语，韵脚比永不停歇的水滴还要锋利<br>我触摸善良的冥界类浆，它们是融化在我血管里的地狱星辰<br>
+                在故去的世界，茫茫人海中，我日日期待着，化身以太，永世长存 -- <span>朱莉王</span>
+            </div>
         </el-container>        
     </div>
 </template>
@@ -85,11 +86,23 @@ export default {
 .homepage-container{
     height: 100vh;
 }
-.el-header, .el-footer {
+.el-header{
     background-color:@black-color;
     color: #ccc;
     text-align: center;
     align-items: center;
+}
+
+
+.footer{
+    padding: 50px 0;
+    line-height: 24px;
+    color: #ccc;
+    text-align: center;
+    background-color:@black-color;
+    span{
+        font-weight: bold;
+    }
 }
 
 
@@ -113,6 +126,7 @@ export default {
 }
 .logo img{
     height: 2.5rem;
+    color: #ccc;
 }
 .avatar img{
     height: 2.5rem;

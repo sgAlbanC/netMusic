@@ -63,12 +63,12 @@ export default ({
             width: 150px;
             height: 150px;
             .imgbox{
-                width: 130px;
-                height: 130px;
                 position: absolute;
                 .el-image{
+                    width: 130px;
+                    height: 106px;
                     cursor:pointer;
-                    width: 100%;
+                    object-fit: cover;
                 }
                 .artistname{
                     overflow:hidden;

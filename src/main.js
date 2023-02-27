@@ -14,13 +14,20 @@ import './assets/css/global.css'
 import axios from 'axios'
 axios.defaults.baseURL = '/api'
 
+// 引入全局组件
+import DataList from './components/DataList.vue'
+
+Vue.component('DataList', DataList);
+
+
+// 发起请求前
 axios.interceptors.request.use(config => {
   NProgress.start()
   config.headers.Authorization = window.sessionStorage.getItem('token')
   // 在最后必须 return config
   return config
 })
-// 在 response 拦截器中，隐藏进度条 NProgress.done()
+// 发起请求后，隐藏进度条 NProgress.done()
 axios.interceptors.response.use(config => {
   NProgress.done()
   return config
@@ -31,6 +38,7 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 // 整个项目入口文件
+
 
 new Vue({
   store,

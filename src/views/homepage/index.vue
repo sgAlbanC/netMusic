@@ -19,10 +19,11 @@
 
         <section class="recommend_box">
             <div class="table-title">
-                <h3>推荐歌单</h3>
+                <h3>推荐歌单</h3><span class="iconfont icon-shuaxin" @click="getPlaylist"></span>
             </div>
-            <el-row>
-                <el-col :span="4"  v-for="item in playlist" :key="item.index">
+            <el-row>                
+                <el-col :span="4"  v-for="item in playlist[pageNo]" :key="item.index">
+                    <!-- playlist里面的东西 -->
                     <div class="imgbox">
                         <el-image :src="item.picUrl" @click="toPlaylistDetail(item.id)" lazy></el-image>
                         <div class="listname">{{item.name}}</div>
@@ -30,21 +31,41 @@
                     </div>
                 </el-col>
             </el-row>
+            <div class="pagination">
+                <el-pagination
+                        background
+                        :total="pagetotal"
+                        :current-page="pageNo+1"
+                        layout="prev,pager,next"
+                        @current-change="handlePageNoChange"
+                        style="text-align:left"
+                        :page-size="pagesize"
+                    >
+                </el-pagination>
+            </div>
         </section> 
+
+        <section>
+            <TopList></TopList>
+        </section>
     </div>
 </template>
 
 <script>
-
+import TopList from '../toplist/index.vue'
 export default ({
     data(){
         return{  
             banners:[],
             balllist:[],
             playlist:[],
-            iconClass:['icon-tuijian','icon-shouyinji','icon-gedan','icon-paihangbang','icon-book','icon-changpian','icon-zhibo','icon-yinle','icon-shoucang','icon-wangyou']
+            iconClass:['icon-tuijian','icon-shouyinji','icon-gedan','icon-paihangbang','icon-book','icon-changpian','icon-zhibo','icon-yinle','icon-shoucang','icon-wangyou'],
+            pagesize:10,  // 每一页10首歌
+            pagetotal:50, // 总共50首歌
+            pageNo:0
         }
     },
+    components: { TopList },
     created(){
         this.getHomepageball()
         this.getHomepageblock()
@@ -68,10 +89,16 @@ export default ({
             this.balllist = res.data
         },
         async getPlaylist(){
-            const {data:res} = await this.$http.get('/personalized?limit=10');
-            // console.log(res)
-            // 注意！！！！ 这里是请求回来的是 playlists ，多一个s 复数
-            this.playlist = res.result
+            const {data:res} = await this.$http.get('/personalized?limit='+this.pagetotal);
+            for(let i=0;i<this.pagetotal;i+=this.pagesize){
+                this.playlist.push(res.result.slice(i,i+10))
+            }
+            // 得到总共列表，分成5份，每份10个，并加上一个页码属性
+        },
+
+
+        handlePageNoChange(pageNo){
+           this.pageNo = pageNo-1
         },
 
         // 跳转页面;这里的id是歌单的id，然后传过去
@@ -139,8 +166,15 @@ export default ({
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
     background: #fff;
     .table-title{
+        display: flex;
+        align-items: center;
         padding: 10px 0 0 0;
         margin: 20px 0 10px 10px;
+        span{
+            margin-left: 20px;
+            font-size: 32px;
+            cursor: pointer;
+        }
     }
     .el-row{
         .el-col{
@@ -153,6 +187,7 @@ export default ({
                 position: relative;
                 .el-image{
                     height: 180px;
+                    width: 180px;
                     cursor:pointer;
                 }
                 .listname{
@@ -177,6 +212,9 @@ export default ({
                 }
             }         
         }    
+    }
+    .pagination{
+        padding-bottom: 20px;
     }
   }
 

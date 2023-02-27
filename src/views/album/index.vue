@@ -36,7 +36,7 @@
         </div>
 
         <el-table
-          :data="tracks"
+          :data="newtracks[pageNo]"
           empty-text="暂无数据"
           stripe
           style="width: 100%"
@@ -57,6 +57,20 @@
             </template>
           </el-table-column>
         </el-table>
+
+        <!-- 分页 -->
+        <div class="pagination">
+              <el-pagination
+                  background
+                  :total="20"
+                  :current-page="pageNo+1"
+                  layout="prev,pager,next"
+                  @current-change="handlePageNoChange"
+                  style="text-align:left"
+                  :page-size="10"
+              >
+              </el-pagination>
+        </div>
       </section>
     </div>
   </div>
@@ -81,13 +95,16 @@ export default {
           al: "",
           id: 0,
         },
-      ]
+      ],
+      newtracks:[],
+      pageNo:0
     };
   },
   created() {
     this.getPlaylistDetail();
   },
   methods: {
+    // 这个接口只能请求到20个歌曲
     async getPlaylistDetail() {
       let id = this.$route.query.id;
       if(this.$route.query.index!=0){
@@ -103,11 +120,17 @@ export default {
 
         this.trackCount = res.playlist.trackCount;
         this.tracks = res.playlist.tracks;
+
+        for(let i=0;i<this.trackCount;i+=10){
+                this.newtracks.push(this.tracks.slice(i,i+10))
+        }
+
+        console.log(this.newtracks)
+        
       }else{
-        // 这里api /likelist/detail?id= 和 /likelist?id= 是一样的
+        // 这里api /likelist/detail?id= 和 /likelist?id= 是一样的;这里意思是如果是点击的 个人主页里面
         const { data: res } = await this.$http.get("/likelist?id=" + id+'&cookie='+window.sessionStorage.getItem('cookie'));
         this.trackCount = res.ids.length
-        // 暂时只显示20首歌
         this.getlikelistsongs(res.ids.splice(0,20))
       }
     },
@@ -138,17 +161,23 @@ export default {
         }
       },
 
-      toLyrics(id,name,ar,al_picUrl){
-            this.$router.push({
-                path:"/lyrics",
-                query: {   
-                    id: id,
-                    name:name,
-                    ar:ar,
-                    al_picUrl:al_picUrl
-                } 
-            })
-        }
+    
+
+    handlePageNoChange(pageNo){
+          this.pageNo = pageNo-1
+      },
+
+    toLyrics(id,name,ar,al_picUrl){
+          this.$router.push({
+              path:"/lyrics",
+              query: {   
+                  id: id,
+                  name:name,
+                  ar:ar,
+                  al_picUrl:al_picUrl
+              } 
+          })
+      }
   },
 };
 </script> 
