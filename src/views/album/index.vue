@@ -142,19 +142,12 @@ export default {
     },
 
     async getSongUrl(index, row) {
-      console.log(row)
       let id = row.id;
-      let name = row.name;
-      // 歌手名字 歌手id
-      let ar = row.ar[0].name;
-      let ar_id = row.ar[0].id
-
-      let al_picUrl = row.al.picUrl
       //  检查音乐是否可播放  
       try {
           // 第一个请求只是看是否能请求成功，不会用到变量
           let check= await this.$http.get("/check/music?id=" + id);
-          this.toLyrics(id,name,ar,al_picUrl)
+          this.toLyrics(id)
       }catch (error) {
           console.log(error);
           this.$message({ message: "亲爱的，暂无版权!" });
@@ -167,14 +160,11 @@ export default {
           this.pageNo = pageNo-1
       },
 
-    toLyrics(id,name,ar,al_picUrl){
+    toLyrics(id){
           this.$router.push({
               path:"/lyrics",
               query: {   
                   id: id,
-                  name:name,
-                  ar:ar,
-                  al_picUrl:al_picUrl
               } 
           })
       }

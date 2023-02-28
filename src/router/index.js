@@ -11,7 +11,7 @@ import Artist from '../views/artist'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', redirect:'/login' },
+  { path: '/', redirect:'/homepage' },
   { path: '/login', component : Login },
   { 
     path: '/index', 

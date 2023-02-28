@@ -1,23 +1,39 @@
 <template>
 <div class="toplist-panel">
-    <div class="title-panel"><h3>新歌速递</h3></div>
+    <div class="toplist_title"><h3>新歌速递</h3></div>
     <div class="list-panel">
-        <div class="mainland">
-            <div class="mainland-title">华语新歌</div>
-            <div v-for="(item) in newSong[0]" :key="item.index" class="list-item">
-                {{item.name}}
+        <div class="area-newsong">
+            <div class="head">
+                <div class="logo">
+                    <img src="@/assets/mainland.jpg">
+                </div>
+                <div class="title">华语新歌</div>
+            </div>
+            <div v-for="(item,index) in newSong[0]" :key="index" class="list-item"
+                @click="getSongUrl(item.id)">
+               <span class="list-item-num">{{ parseInt(index)+1 }}</span> {{item.name}}
             </div>
         </div>
-        <div class="nihong">
-            <div class="nihong-title">霓虹新歌</div>
-            <div v-for="(item) in newSong[0]" :key="item.index" class="list-item">
-                {{item.name}}
+        <div class="area-newsong">
+            <div class="head">
+                <div class="logo">
+                    <img src="@/assets/japan.jpg">
+                </div>
+                <div class="title">霓虹新歌</div>
+            </div>
+            <div v-for="(item,index) in newSong[0]" :key="index" class="list-item">
+               <span class="list-item-num">{{ parseInt(index)+1 }}</span> {{item.name}}
             </div>
         </div>
-        <div class="US">
-            <div class="US">欧美新歌</div>
-            <div v-for="(item) in newSong[0]" :key="item.index" class="list-item">
-                {{item.name}}
+        <div class="area-newsong">
+            <div class="head">
+                <div class="logo">
+                    <img src="@/assets/us.jpg">
+                </div>
+                <div class="title">欧美新歌</div>
+            </div>
+            <div v-for="(item,index) in newSong[0]" :key="index" class="list-item">
+               <span class="list-item-num">{{ parseInt(index)+1 }}</span> {{item.name}}
             </div>
         </div>
     </div>
@@ -29,7 +45,7 @@
 export default({
     data(){
         return{
-            newSong:[]
+            newSong:[],
         }
     },
 
@@ -46,6 +62,27 @@ export default({
             console.log(this.newSong)
             } 
         },
+
+        async getSongUrl(id) {
+            //  检查音乐是否可播放  
+            try {
+                // 第一个请求只是看是否能请求成功
+                let check= await this.$http.get("/check/music?id=" + id);
+                this.toLyrics(id)
+            }catch (error) {
+                console.log(error);
+                this.$message({ message: "亲爱的，暂无版权!" });
+                }
+            },
+
+        toLyrics(id){
+          this.$router.push({
+              path:"/lyrics",
+              query: {   
+                  id: id,
+              } 
+          })
+      }
     },
     props:{
         data:{
@@ -63,24 +100,59 @@ export default({
     margin: 20px 0;
     padding: 10px;
     background-color: #fff;
-    .title-panel{
+    .toplist_title{
         padding: 10px 0;
     }
     .list-panel{
         display: flex;
-        .mainland, .nihong,.US{
+        .area-newsong{
             width: 300px;
             margin: 0 auto;
+            .head{
+                display: flex;
+                padding: 10px;
+                background-color: #f9f9f9;
+                .logo{
+                    // padding: 10px;
+                    margin-right:10px;
+                    
+                    img{
+                        height: 80px;
+                        width: 80px;
+                        object-fit: cover;
+                    }
+                }
+                .title{
+                    margin-top: 10px;
+                    font-weight: bold;
+                }
+            }
             .list-item{
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 padding: 5px 10px;
+                line-height: 24px;
+                cursor: pointer;
+                .list-item-num{
+                    margin-right: 5px;
+                }
             }
             .list-item:nth-child(even){
                 background:#ececec;
             }
-
+            .list-item:nth-child(-n+4){
+                .list-item-num{
+                    color: #C2170C;;
+                }
+            }
+            .list-item:nth-child(2){
+                font-size: 18px;
+            }
+            .list-item:hover{
+                opacity: 0.8;
+            }
+ 
         }
     }
 }

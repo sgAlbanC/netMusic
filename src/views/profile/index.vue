@@ -2,7 +2,7 @@
     <div>
         <div class="baseinfo_box">
             <div class="avatar">
-                <el-image :src="avatarUrl">
+                <el-image :src="userInfo.avatarUrl">
                     <div slot="error" class="image-slot">
                         <i class="el-icon-picture-outline"></i>
                     </div>
@@ -10,9 +10,12 @@
             </div>
             <div class="base_form">
                 <el-form>
-                    <el-form-item>{{nickname}}/LV{{level}}/{{gender}}</el-form-item>
-                    <el-form-item>关注:{{follows}}|粉丝:{{followeds}}</el-form-item>
-                    <el-form-item>个人介绍: {{signature}}</el-form-item>
+                    <el-form-item>
+                        {{userInfo.nickname}} 
+                        <el-divider direction="vertical"></el-divider>
+                        {{userInfo.gender==1?'男':'女'}}</el-form-item>
+                    <el-form-item>xxx</el-form-item>
+                    <el-form-item>个人介绍: {{userInfo.signature}}</el-form-item>
                 </el-form>
             </div>
             <div class="clear"></div>
@@ -90,8 +93,7 @@
 export default ({
     data(){
         return{
-            nickname:'Det',
-            level:0,
+            userInfo:{},
             listenSongs: 0,
             gender:'',
             avatarUrl:'',
@@ -115,30 +117,12 @@ export default ({
     },
     methods:{
         // 获取用户基本信息
+
         async getUserInfo(){
-            const {data:res} = await this.$http.get('user/detail?uid='+window.sessionStorage.getItem('uid'));
-            // console.log(res)
-
-            if(res.code != 200){
-                return this.$message.error('获取用户信息失败!')
-            }
-
-            this.nickname = res.profile.nickname
-            this.gender = res.profile.gender
-            if(this.gender==1){
-                this.gender='男'
-            }else if(this.gender==0){
-                this.gender='女'
-            }else{
-                this.gender='保密'
-            }
-            this.signature = res.profile.signature
-            this.avatarUrl = res.profile.avatarUrl
-            this.follows = res.profile.follows 
-            this.followeds = res.profile.followeds
-
-            this.listenSongs = res.listenSongs
-            this.level = res.level          
+            const {data:res} = await this.$http.get('/user/account')
+            console.log(res)
+            this.userInfo = res.profile
+            console.log(this.userInfo)
         },
         
         async getSongMV(){

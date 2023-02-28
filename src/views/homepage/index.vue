@@ -62,7 +62,7 @@ export default ({
             iconClass:['icon-tuijian','icon-shouyinji','icon-gedan','icon-paihangbang','icon-book','icon-changpian','icon-zhibo','icon-yinle','icon-shoucang','icon-wangyou'],
             pagesize:10,  // 每一页10首歌
             pagetotal:50, // 总共50首歌
-            pageNo:0
+            pageNo:0,
         }
     },
     components: { TopList },
@@ -71,6 +71,7 @@ export default ({
         this.getHomepageblock()
         this.getPlaylist()
         this.setActiveBoard()
+        
     },
     methods:{
 

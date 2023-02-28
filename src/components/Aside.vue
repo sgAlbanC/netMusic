@@ -29,8 +29,17 @@ export default {
         async getSearchHot(){
             const {data:res} = await this.$http.get('/search/hot')
             this.hots = res.result.hots
-            // console.log(this.hots)
+        },
+
+        toPlaylistDetail(id){
+            this.$router.push({
+                path:"/album",
+                query: {   
+                    id: id
+                } 
+            })
         }
+
         
     }
 }
@@ -53,6 +62,10 @@ export default {
         overflow:hidden;
         text-overflow:ellipsis;  /* 溢出用省略号表示 */
         white-space:nowrap;  /* 始终保持在一行显示 */
+        cursor: pointer;
+    }
+    .searchhot_list:hover{
+        color:rgb(255, 208, 75);
     }
 }
 </style>

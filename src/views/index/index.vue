@@ -13,7 +13,7 @@
                     <el-menu-item index="findmusic">发现音乐</el-menu-item>
                     <el-menu-item index="artist">音乐人</el-menu-item>
                     <el-submenu class="avatar" index="3">
-                        <template slot="title"><img :src="[avatarUrl?avatarUrl:require('../../assets/notlogin.png')]"></template>
+                        <template slot="title"><img :src="[userInfo.avatarUrl?userInfo.avatarUrl:require('../../assets/notlogin.png')]"></template>
                         <el-menu-item index="profile"><i class="el-icon-user"></i>我的主页</el-menu-item>
                         <el-menu-item index="3-2"><i class="el-icon-medal"></i>我的等级</el-menu-item>
                         <el-menu-item index="3-3"><i class="el-icon-setting"></i>个人设置</el-menu-item>
@@ -52,17 +52,20 @@ export default {
       return {
         activeIndex: 'hompage',
         input:'',
-        avatarUrl:''
+        userInfo:{}
       }
     },
     created(){
-        this.getavatar()
-        this.getActiveIndex()
+        this.getActiveIndex(),
+        this.getUserInfo()
     },
     methods:{
-        getavatar(){
-            this.avatarUrl= window.sessionStorage.getItem('avatarUrl')
+
+        async getUserInfo(){
+            const {data:res} = await this.$http.get('/user/account')
+            this.userInfo = res.profile
         },
+
         logout(){
             window.sessionStorage.clear()
             this.$router.push("/login")

@@ -10,7 +10,7 @@
               <i class="icon-back"></i>
             </div>
             <h2 class="title">{{songName}}</h2>
-            <h1 class="title">歌手：{{artistName}}</h1>
+            <!-- <h1 class="title">歌手：{{artistName}}</h1> -->
           </div>
         </div>
         <audio @pause="onPause" @play="onPlay" @ended="overAudio" @timeupdate="ontimeupdate" :src="mp3Url"  controls="controls"></audio>
@@ -23,18 +23,23 @@
           <div>歌词显示处</div>
         </div>
       </div>
+      <!-- 评论区 -->
       <div class="comment_box">
 
-        <div class="title"><h2>评论区</h2></div>
+        <div class="title">
+          <h2>评论区</h2> 
+          <span>{{ comments_total }} 条评论</span>
+        </div>
         <div class="tabs">
           <el-tabs v-model="tabactiveName" @tab-click="handleClick">
             <el-tab-pane label="最热" name="first">
-                <div class="comment_item" v-for="(item,index) in hotComments" :key="index">
+                <div class="comment_item" v-for="(item,index) in hotComments[pageNo]" :key="index">
                   <div class="avatar">
-                    <el-image :src="item.user.avatarUrl" lazy style="width:50px;height:50px" fit="cover"></el-image>
+                    <el-image :src="item.user.avatarUrl" style="width:50px;height:50px" fit="cover"></el-image>
                   </div>
                   <div class="content">
-                      <div>{{item.content}}</div>
+                    <div class="comment_name">{{ item.user.nickname }}</div>
+                    <div>{{item.content}}</div>
                   </div>
                   <div class="action">
                       <div class="likedCount">
@@ -44,22 +49,83 @@
                           </div>
                           <div v-else><img @click="likecomment(item.commentId,0,index)" src="../../assets/like1.svg" /></div>
                         </div>
-                        <div>({{item.likedCount}})</div>
+                        <div>{{item.likedCount}}</div>
                       </div>
                       <div class="time">{{item.timeStr}}</div>
                   </div>
                 </div>
-                
+                <div class="pagination" >
+                <el-pagination v-if="hotComments.length>0"
+                        background
+                        :total="hotCommentsCount"
+                        :current-page="pageNo+1"
+                        layout="prev,pager,next"
+                        @current-change="handlePageNoChange"
+                        style="text-align:left"
+                        :page-size="8"
+                    >
+                </el-pagination>
+                <div class="" v-else>暂无最热评论</div>
+            </div>
             </el-tab-pane>
             <el-tab-pane label="最新" name="second">
-                <div v-for="(item,index) in comments" :key="index">
-                  <div>{{item.content}}</div>
+              <div class="comment_item" v-for="(item,index) in comments[pageNo]" :key="index">
+                  <div class="avatar">
+                    <el-image :src="item.user.avatarUrl" style="width:50px;height:50px" fit="cover"></el-image>
+                  </div>
+                  <div class="content">
+                      <div class="comment_name">{{ item.user.nickname }}</div>
+                      <div> {{item.content}}</div>
+                  </div>
+                  <div class="action">
+                      <div class="likedCount">
+                        <div class="like">
+                          <div v-if="item.liked==false">
+                            <img @click="likecomment(item.commentId,1,index)" src="../../assets/like0.svg" />
+                          </div>
+                          <div v-else><img @click="likecomment(item.commentId,0,index)" src="../../assets/like1.svg" /></div>
+                        </div>
+                        <div> {{item.likedCount}}</div>
+                      </div>
+                      <div class="time">{{item.timeStr}}</div>
+                  </div>
                 </div>
+                <div class="pagination">
+                <el-pagination v-if="comments.length>0"
+                        background
+                        :total="commentsCount"
+                        :current-page="pageNo+1"
+                        layout="prev,pager,next"
+                        @current-change="handlePageNoChange"
+                        style="text-align:left"
+                        :page-size="8"
+                    >
+                </el-pagination>
+                <div class="" v-else>暂无评论</div>
+            </div>
             </el-tab-pane>
           </el-tabs>
         </div>
        
       </div>
+      <!-- 歌手详情 -->
+
+      <div class="" v-if="artistInfo.length!=0">
+        <div class="artist_box" v-for="item in artistInfo" :key="item.index">
+          <div class="artist_base_info">
+            <div class="artist_avatar"><img :src="item.cover?item.cover:''" /></div>
+            <div class="artist_base_info_text">
+              <div class="artist_name">{{ item.name?item.name:null }}</div>
+              <div class="chinese_name">{{ item.transNames[0]?item.transNames[0]:null }}</div>
+              <div class="albumSize">专辑数：{{ item.albumSize?item.albumSize:'暂无'}}</div>
+            </div>
+          </div>
+          
+          <div class="briefDesc">{{ item.briefDesc }}</div>
+        </div>
+      </div>
+      
+
     </div>
 </template>
 
@@ -69,6 +135,13 @@ export default {
     return {
       id:0,
       mp3Url: "",
+      songName:'',
+      ar:[], // 歌手情况
+      artistInfo:[],
+
+
+      a:[],
+      // 歌词部分
       lyrics:'',
       lyricUser:'',
       transUser:'',
@@ -78,28 +151,66 @@ export default {
       currentLyricnow:'',   // 这个才是当前歌词
       currentLyricafter:'',
       currentTime : [],
-      songName:this.$route.query.name,
-      artistName:this.$route.query.ar,
-      al_picUrl:this.$route.query.al_picUrl,
-      count:0,
+      count:0,// 歌词的秒数？
 
-
+      // 歌曲封面
+      al_picUrl:'',
+      
       // 评论部分
       comments:[],
       hotComments:[],
       comments_total:0,
-      tabactiveName: 'first'
+      tabactiveName: 'first',
+      // 分页
+      hotCommentsCount:0,
+      commentsCount:0,
+      pageNo:0
     };
   },
   created() {
+    this.getSongDetail()
     this.playsong();
     this.getLyrics();
-    this.getComment()
+    this.getComment();
+  },
+  onMounted:{
   },
   methods: {
-    handleClick(tab) {
-        // console.log(tab.name);
+    handleClick(tab) {   
+      this.tabactiveName= tab.name
     },
+    
+    handlePageNoChange(pageNo){
+      this.pageNo = pageNo-1
+    },
+
+
+
+    // 获取歌曲详情，歌曲名字，歌曲图片，歌曲Id，歌手名字;这个接口可以传多个id，返回就是
+    // 数组对象，我们点击一首歌的时候，只需要取第一首歌，就是res.songs[0]
+    async getSongDetail(){
+      this.id = this.$route.query.id;
+      const {data:res} = await this.$http.get("/song/detail?ids=" + this.id);
+      let result = res.songs[0]
+      this.songName=result.name
+      this.al_picUrl = result.al.picUrl
+      this.ar =result.ar
+      console.log(result)
+      this.getArtistDetail();
+    },
+
+    // 获取歌手详情
+    async getArtistDetail(){
+      for(let i=0;i<this.ar.length;i++){
+        const {data:res} = await this.$http.get("/artist/detail?id=" + this.ar[i].id);
+        this.artistInfo.push(res.data.artist)
+      }
+      console.log(this.artistInfo)
+      console.log(this.artistInfo[1].name)
+    },
+
+
+    // 播放歌曲 用歌曲id获得mp3Url
     async playsong(){
         this.id = this.$route.query.id;
         const {data:res} = await this.$http.get("/song/url?id=" + this.id);
@@ -110,10 +221,24 @@ export default {
     async getComment(){
         this.id = this.$route.query.id;
         const {data:res} = await this.$http.get("/comment/music?id=" + this.id);
-        this.comments = res.comments
-        this.hotComments = res.hotComments
+        
+        // 只能请求到15个热评，所以循环两次就行了
+        // 有20个最新评论，循环三次
+        for(let i=0;i<res.hotComments.length;i+=8){
+          this.hotComments.push(res.hotComments.slice(i,i+8))
+        }
+        this.hotCommentsCount = res.hotComments.length
+        this.commentsCount = res.comments.length
+        
+        for(let i=0;i<res.comments.length;i+=8){
+          this.comments.push(res.comments.slice(i,i+8))
+        }
         this.comments_total = res.total
-        console.log(res)
+
+        // 判断是否有热评，如果没有，就直接跳转到最新评论
+        if(this.hotCommentsCount==0){
+          this.tabactiveName = 'second'
+        }
     },
 
     async likecomment(cid,t,index){
@@ -135,7 +260,7 @@ export default {
         let id = this.$route.query.id;
         const {data:res} = await this.$http.get("/lyric?id=" + id);
 
-        console.log(res)
+        // console.log(res)
         // 歌词贡献和翻译贡献
         this.lyricUser = res.lyricUser
         this.transUser = res.transUser
@@ -221,6 +346,10 @@ export default {
     border: 10px solid #fff;
     padding: 20px;
     width: 290px;
+    max-height: 330px;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
     div{
       margin-bottom: 10px;
   }
@@ -230,11 +359,24 @@ export default {
  }
 }
 .comment_box{
+  width: 800px;
   margin-left: 40px;
   padding: 0 20px 20px 20px;
   background-color: #fff;
+
+  .title{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    span{
+      margin-left: 10px;
+      font-size: 14px;
+    }
+  }
   .tabs{
+    width: 800px;
     opacity: 0.9;
+    position: relative;
     /deep/ .el-tabs__item.is-active{
       color:#c2170c;
     }
@@ -248,6 +390,12 @@ export default {
     .comment_item{
       display: flex;
       font-size: 16px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      // height: 70px;
+      // overflow: hidden;
+      border-bottom: 1px solid #e6e5e5;
+
       .avatar{
         .el-image{
           border-radius: 50%;
@@ -256,6 +404,10 @@ export default {
       .content{
         flex: 9;
         margin-left:10px ;
+        .comment_name{
+          color: #535353;
+          margin-bottom: 5px;
+        }
       }
       .action{
         flex: 1;
@@ -280,5 +432,50 @@ export default {
 
 }
 
+.artist_box{
+  width: 400px;
+  padding:20px;
+  margin-left: 40px;
+  background: #fff;
+  .artist_base_info{
+    display: flex;
+    margin-bottom: 10px;
+    .artist_avatar{
+      width: 180px;
+      height: 180px;
+      margin-right: 20px;
+      img{
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+      }
+    }
+    .artist_name{
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  .briefDesc{
+    height: 170px;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  .briefDesc::-webkit-scrollbar {
+    width: 12px;
+    background-color: #f5f5f5
+  }
+  .briefDesc::-webkit-scrollbar-thumb
+  {
+      // -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+      border-radius:10px;
+      background-color:#e7e7e7;
+  }
+
+}
+
+
+.pagination{
+  // position: absolute;
+}
 
 </style>

@@ -13,7 +13,6 @@ import './assets/css/global.css'
 // 导入axios 发起ajax请求;这样每一个Vue的组件都可以通过this访问到$http，从而发起ajax请求
 import axios from 'axios'
 axios.defaults.baseURL = '/api'
-
 // 引入全局组件
 import DataList from './components/DataList.vue'
 
@@ -24,6 +23,17 @@ Vue.component('DataList', DataList);
 axios.interceptors.request.use(config => {
   NProgress.start()
   config.headers.Authorization = window.sessionStorage.getItem('token')
+
+  // 给get加时间戳？
+  if (config.method == 'get') {
+    config.params = {
+      _t: Date.parse(new Date()) / 1000,
+      ...config.params
+    }
+  }
+
+
+
   // 在最后必须 return config
   return config
 })
