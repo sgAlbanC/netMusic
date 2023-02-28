@@ -46,13 +46,13 @@
         </section> 
 
         <section>
-            <TopList></TopList>
+            <NewList></NewList>
         </section>
     </div>
 </template>
 
 <script>
-import TopList from '../toplist/index.vue'
+import NewList from '../newlist/index.vue'
 export default ({
     data(){
         return{  
@@ -65,7 +65,7 @@ export default ({
             pageNo:0,
         }
     },
-    components: { TopList },
+    components: { NewList },
     created(){
         this.getHomepageball()
         this.getHomepageblock()

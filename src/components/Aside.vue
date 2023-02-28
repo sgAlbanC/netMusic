@@ -8,7 +8,7 @@
                 </div>
                 
                 <div class="searchhot_list" v-for="item in hots" :key="item.index">
-                    <div>{{item.first}}</div>
+                    <div>{{item.searchWord}}</div>
                 </div>
             </div>
         </div>        
@@ -27,8 +27,9 @@ export default {
     },
     methods:{
         async getSearchHot(){
-            const {data:res} = await this.$http.get('/search/hot')
-            this.hots = res.result.hots
+            const {data:res} = await this.$http.get('/search/hot/detail')
+            this.hots = res.data.slice(0,10)
+            console.log(this.hots)
         },
 
         toPlaylistDetail(id){

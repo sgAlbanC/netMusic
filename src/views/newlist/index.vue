@@ -59,7 +59,7 @@ export default({
             for(let i=0;i<1;i++){
                 const {data:res} = await this.$http.get('/top/song?type='+type[i]);
             this.newSong.push({...(res.data.slice(0,10))})
-            console.log(this.newSong)
+            // console.log(this.newSong)
             } 
         },
 

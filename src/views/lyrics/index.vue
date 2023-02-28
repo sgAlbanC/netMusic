@@ -195,7 +195,6 @@ export default {
       this.songName=result.name
       this.al_picUrl = result.al.picUrl
       this.ar =result.ar
-      console.log(result)
       this.getArtistDetail();
     },
 
@@ -205,8 +204,6 @@ export default {
         const {data:res} = await this.$http.get("/artist/detail?id=" + this.ar[i].id);
         this.artistInfo.push(res.data.artist)
       }
-      console.log(this.artistInfo)
-      console.log(this.artistInfo[1].name)
     },
 
 
@@ -214,7 +211,6 @@ export default {
     async playsong(){
         this.id = this.$route.query.id;
         const {data:res} = await this.$http.get("/song/url?id=" + this.id);
-        // console.log(res)
         this.mp3Url = res.data[0].url;
     },
     
@@ -359,13 +355,11 @@ export default {
  }
 }
 .comment_box{
-  width: 800px;
+  width: 700px;
   margin-left: 40px;
-  padding: 0 20px 20px 20px;
-  background-color: #fff;
-
   .title{
-    margin-top: 10px;
+    background-color: #fff;
+    padding: 10px ;
     display: flex;
     align-items: center;
     span{
@@ -374,7 +368,9 @@ export default {
     }
   }
   .tabs{
-    width: 800px;
+    background-color: #fff;
+    padding:0 10px 20px 10px;
+    min-width: 500px;
     opacity: 0.9;
     position: relative;
     /deep/ .el-tabs__item.is-active{
@@ -434,7 +430,7 @@ export default {
 
 .artist_box{
   width: 400px;
-  padding:20px;
+  padding:10px 20px 20px 20px;
   margin-left: 40px;
   background: #fff;
   .artist_base_info{
@@ -456,7 +452,7 @@ export default {
     }
   }
   .briefDesc{
-    height: 170px;
+    max-height: 170px;
     overflow: auto;
     overflow-x: hidden;
   }
